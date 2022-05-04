@@ -1,0 +1,1040 @@
+---
+title: Dashboard
+output: 
+  flexdashboard::flex_dashboard:
+    logo: /capstone/energysiting/data/intermediate_files/energy_logo_dashboard.png
+    orientation: rows
+    vertical_layout: scroll
+    fig_width: 7
+    fig_height: 5
+    
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(tidyverse)
+library(sf)
+library(terra)
+library(stringr)
+library(DT)
+library(knitr)
+```
+
+```{r, include=FALSE}
+aoi <- read_sf("/capstone/energysiting/data/masks/us_outline/with_states.shp")
+
+########Variables############
+path <- "/capstone/energysiting/data"
+
+display <- function(file, legend=TRUE) {
+  path_to_file <- file.path(path, file)
+  x <- if(grepl(pattern = ".tif", x = file)) {rast(path_to_file)} else {vect(path_to_file)}
+  us <- terra::project(vect(aoi), x)
+  terra::plot(x, axes = FALSE, alpha = 0, legend = legend)
+  terra::plot(us, axes=FALSE, alpha = 0.7, border = "grey", add = TRUE)
+  terra::plot(x, axes=FALSE, add = TRUE, legend = legend)
+}
+
+display_vect <- function(file) {
+  path_to_file <- file.path(path, file)
+  x <- if(grepl(pattern = ".tif", x = file)) {rast(path_to_file)} else {vect(path_to_file)}
+  us <- terra::project(vect(aoi), x)
+  terra::plot(us, axes=FALSE, alpha = 0.7, border = "grey")
+  terra::plot(x, axes=FALSE, add = TRUE)
+}
+
+display_mapview <- function(file, layer_name = "value", legend = TRUE) {
+  path_to_file <- file.path(path, file)
+  x <- raster::raster(path_to_file)
+  mapview::mapView(x, trim = FALSE, layer.name = layer_name, alpha.regions = 0.7, na.color = "transparent", legend = legend)
+}
+
+display_mapview_vect <- function(file, zcol = NULL, layer_name = NULL, legend = FALSE) {
+  path_to_file <- file.path(path, file)
+  x <- read_sf(path_to_file)
+  mapview::mapView(x, trim = FALSE, na.color = "transparent", zcol = zcol, layer.name = layer_name, legend = legend)
+}
+
+reso <- function(file) {
+  path_to_file <- file.path(path, file)
+  x <- rast(path_to_file)
+
+  return(paste(x@ptr$res[1], "x", x@ptr$res[2]))
+}
+
+extent <- function(file) {
+  path_to_file <- file.path(path, file)
+  x <- rast(path_to_file)
+  return(as.character(terra::ext(x)))
+ 
+}
+
+pro <- function(file) {
+  path_to_file <- file.path(path, file)
+  x <- rast(path_to_file)
+  return(crs(x, proj = TRUE))
+ 
+}
+
+units <- function(file) {
+  path_to_file <- file.path(path, file)
+  x <- rast(path_to_file)
+  value <- (terra::linearUnits(x))
+  return(paste(value, "m"))
+ 
+}
+
+type <- function(file) {
+  path_to_file <- file.path(path, file)
+  x <- if(grepl(pattern = ".tif", x = file)) {rast(path_to_file)} else {vect(path_to_file)}
+  if(grepl(pattern = ".tif", x = file)) {return("raster")}
+  else {return("vector")}
+ 
+}
+
+
+dt <- function(file) {
+  df <- data.frame(Type = type(file), Extent = extent(file), Projection = pro(file), Resolution = reso(file))
+  return(kableExtra::kable(df, align = 'c') %>% kableExtra::kable_classic())
+}
+
+display_table <- function(file) {
+  path_to_file <- file.path(path, file)
+  df <- read_csv(path_to_file)
+  DT::datatable(df)
+}
+
+files <- list.files(path)
+
+names <- files %>% 
+  str_remove_all(pattern = ".tif") %>% 
+  str_replace_all(pattern = "_", replacement = " ") %>% 
+  str_remove_all(pattern = "qgis")
+
+
+
+
+
+
+```
+
+
+
+Variables
+========================================
+Row {data-height=45}
+----------------------------------------
+**VARIABLES**
+
+Row {.tabset data-height=1500}
+----------------------------------------
+### Env Exclusions
+```{r, fig.asp=0.6}
+display("processed_data/variables/env_exclusions.tif")
+```
+```{r}
+
+```
+
+
+**Environmental Exclusions**  
+This dataset was created by The Nature Conservancy examining the environmental constraints and impacts of renewable energy development required to achieve rapid decarbonization goals. Spatial data representing ecological, cultural and agricultural siting criters was used in the compiling of this dataset (The Nature Conservancy, 2021). While the data for the 11 western states is publically available [here](https://tnc.maps.arcgis.com/apps/webappviewer/index.html?id=71b0605e44bf475ea55f6d369e668b2c), the data for the entire continential US was provided by Grace Wu. Please contact her for access to this data. 
+
+```{r}
+dt("processed_data/variables/env_exclusions.tif")
+```
+
+
+### Land Acquisition
+```{r, fig.asp=0.6}
+display("processed_data/variables/land_acquisition.tif")
+```
+```{r}
+
+```
+
+
+**Land Acquisition**  
+This dataset was created by the PLACES Lab at Boston University. High-resolution maps of estimated fair market value of private properties in the contiguous United States.
+
+As of Nov 9, 2020, these estimates were the best available large-scale predictor for the actual cost of publicly-funded land acquisitions for conservation in the contiguous United States (Nolte, 2020). 
+
+The dataset is available for download [here](https://datadryad.org/stash/dataset/doi:10.5061/dryad.np5hqbzq9). 
+ 
+
+```{r}
+dt("processed_data/variables/land_acquisition.tif")
+```
+
+
+### Pop Density
+```{r, fig.asp=0.6}
+display("processed_data/variables/pop_density.tif")
+```
+```{r}
+
+```
+
+
+**Population Density**  
+ORNL’s LandScan is a community standard for global population distribution data. The LandScan Global population distribution is essentially a combination of locally adaptive models that are tailored to match the data conditions and geographical nature of each individual country and region (Rose et al., 2020).
+
+To access this data, you can follow this [link](https://landscan.ornl.gov/downloads/2019). 
+
+```{r}
+dt("processed_data/variables/pop_density.tif")
+```
+
+
+### Roads
+```{r, fig.asp=0.6}
+display("processed_data/variables/roads_qgis.tif")
+```
+```{r}
+
+```
+
+
+**Distance to Roads**  
+Euclidian distance to roads, calculated in meters.  
+
+```{r}
+dt("processed_data/variables/roads_qgis.tif")
+```
+
+
+### RPS
+```{r, fig.asp=0.6}
+display("processed_data/variables/rps.tif")
+```
+```{r}
+
+```
+
+
+**Renewable Portfolio Standards**  
+Renewable Portfolio Standards (RPS) require that a specified percentage of the electricity utilities sell comes from renewable resources. States have created these standards to diversify their energy resources, promote domestic energy production and encourage economic development. This dataset contains information of the renewable portfolio standards for each state as of 2018.
+
+This data can be accessed through this [link](https://www.ncsl.org/research/energy/renewable-portfolio-standards.aspx).
+
+```{r}
+dt("processed_data/variables/rps.tif")
+```
+
+
+### Slope
+```{r, fig.asp=0.6}
+display("processed_data/variables/slope.tif")
+```
+```{r}
+
+```
+
+
+**Slope**  
+This dataset was created by the United States Geological survey and information on its creation can be found [here](https://www.usgs.gov/centers/eros/science/usgs-eros-archive-digital-elevation-shuttle-radar-topography-mission-srtm-1?qt-science_center_objects=0#qt-science_center_objects). The dataset used in our analysis was the SRTM Void Filled data which has additional processing done to address areas of missing data in the slope. 
+
+The data can be accessed through the USGS's [Earth Explorer](http://earthexplorer.usgs.gov/). 
+ 
+
+```{r}
+dt("processed_data/variables/slope.tif")
+```
+
+
+### Solar Capacity
+```{r, fig.asp=0.6}
+display("processed_data/variables/solar_capacity.tif")
+```
+```{r}
+
+```
+
+
+**Solar Capacity Factor (Used only for solar analysis)**  
+Capacity Factor is defined as a measure of how much energy is produced by a plant compared with its maximum output (National Renewable Energy Laboratory, 2013). This dataset contains information regarding the solar capacity factor for the entire continential US. It was compiled using a script produced by Grace Wu, the client for this project, which queried the National Renewable Energy Laboratory Database. To obtain this dataset or the script to compile the data yourself, contact Grace Wu.  
+
+```{r}
+dt("processed_data/variables/solar_capacity.tif")
+```
+
+
+### Substations
+```{r, fig.asp=0.6}
+display("processed_data/variables/substations_110_qgis.tif")
+```
+```{r}
+
+```
+
+
+**Distance to Electrical Substations**  
+add information here  
+
+```{r}
+dt("processed_data/variables/substations_110_qgis.tif")
+```
+
+
+### SVI overall
+```{r, fig.asp=0.6}
+display("processed_data/variables/svi_overall.tif")
+```
+```{r}
+
+```
+
+
+**Social Vulnerability Index - Overall**  
+add information here  
+
+```{r}
+dt("processed_data/variables/svi_overall.tif")
+```
+
+
+### SVI socioeconomic
+```{r, fig.asp=0.6}
+display("processed_data/variables/svi_socioeconomic.tif")
+```
+```{r}
+
+```
+
+
+**Social Vulnerability Index - Socioeconomic**  
+add information here  
+
+```{r}
+dt("processed_data/variables/svi_socioeconomic.tif")
+```
+
+
+### SVI unemployment
+```{r, fig.asp=0.6}
+display("processed_data/variables/svi_unemp.tif")
+```
+```{r}
+
+```
+
+
+**Social Vulnerability Index - Unemployment**  
+add information here  
+
+```{r}
+dt("processed_data/variables/svi_unemp.tif")
+```
+
+
+### Transmission Lines
+```{r, fig.asp=0.6}
+display("processed_data/variables/transmission_110_qgis.tif")
+```
+```{r}
+
+```
+
+
+**Distance to Transmission Lines**  
+Distance to the nearest transmission line calculated in meters 
+
+```{r}
+dt("processed_data/variables/transmission_110_qgis.tif")
+```
+
+
+### Wind Capacity
+```{r, fig.asp=0.6}
+display("processed_data/variables/wind_capacity.tif")
+```
+```{r}
+
+```
+
+
+**Wind Capacity Factor (Used only for wind analysis)**  
+Capacity Factor is defined as a measure of how much energy is produced by a plant compared with its maximum output (National Renewable Energy Laboratory, 2013). This dataset contains information regarding the wind capacity factor for the entire continential US. It was compiled using a script produced by Grace Wu, the client for this project, which queried the National Renewable Energy Laboratory Database. To obtain this dataset or the script to compile the data yourself, contact Grace Wu. 
+
+```{r}
+dt("processed_data/variables/wind_capacity.tif")
+```
+
+
+
+
+Locations
+========================================
+Row {data-height=45}
+----------------------------------------
+**LOCATIONS**
+
+Row {.tabset data-height=550}
+----------------------------------------
+### Wind
+```{r, fig.asp=0.6}
+display_vect("processed_data/existing_wind_solar/wind_hull_existing_pts.shp")
+```
+```{r}
+
+```
+
+
+
+**Existing wind farm locations**  
+The United States Wind Turbine Database (USWTDB) provides the locations of land-based and offshore wind turbines in the United States, corresponding wind project information, and turbine technical specifications.  
+
+The data is available for download [here](https://www.sciencebase.gov/catalog/item/6001e327d34e592d8671fae0).
+
+
+
+### Wind Interactive
+```{r, fig.asp=0.6}
+display_mapview_vect("processed_data/existing_wind_solar/wind_hull_existing.shp", zcol = "p_cap", legend = TRUE)
+```
+```{r}
+
+```
+
+
+### Wind Mask
+```{r, fig.asp=0.6}
+display("processed_data/masks/wind_suitability_SL1.tif", legend = FALSE)
+```
+```{r}
+
+```
+
+
+
+**Site Suitability level: SL1**  
+Places where absence points can potentially be located
+
+
+### Wind Absence
+```{r, fig.asp=0.6}
+display_vect("processed_data/existing_wind_solar/bgPts_wind.shp")
+```
+```{r}
+
+```
+
+
+
+**Pseudo absence points**  
+These are points generated in order to conduct the machine learning analysis
+
+
+### Wind Absence Interactive
+```{r, fig.asp=0.6}
+display_mapview_vect("processed_data/existing_wind_solar/bgPtsBuff_wind.shp", layer_name = "ID")
+```
+```{r}
+
+```
+
+
+
+
+Row {.tabset data-height=550}
+----------------------------------------
+### Solar
+```{r, fig.asp=0.6}
+display_vect("processed_data/existing_wind_solar/solar_hull_existing_pts.shp")
+```
+```{r}
+
+```
+
+
+
+**Existing solar farm locations**  
+This dataset was compiled to by Kruitwagen et. al. to accompany a the paper titled, "A global inventory of solar photovoltaic generating units." 
+
+It can be accessed [here](https://zenodo.org/record/5005868#.YeJOvi-B1Go).
+
+
+
+### Solar Interactive
+```{r, fig.asp=0.6}
+display_mapview_vect("processed_data/existing_wind_solar/solar_hull_existing_pts.shp", zcol = "cpcty_m", legend = TRUE)
+```
+```{r}
+
+```
+
+
+### Solar Mask
+```{r, fig.asp=0.6}
+display("processed_data/masks/solar_suitability_SL1.tif", legend = FALSE)
+```
+```{r}
+
+```
+
+
+
+**Site Suitability level: SL1**  
+Places where absence points can potentially be located
+
+
+
+### Solar Absence
+```{r, fig.asp=0.6}
+display_vect("processed_data/existing_wind_solar/bgPts_solar.shp")
+```
+```{r}
+
+```
+
+
+
+**Pseudo absence points**  
+These are points generated in order to conduct the machine learning analysis
+
+
+### Solar Absence Interactive
+```{r, fig.asp=0.6}
+display_mapview_vect("processed_data/existing_wind_solar/bgPtsBuff_solar.shp", layer_name = "ID")
+```
+```{r}
+
+```
+
+
+
+Wind Analysis
+========================================
+Row {data-height=45}
+----------------------------------------
+**WIND ANALYSIS**
+
+Row {data-height=30}
+----------------------------------------
+**Logistic Regression**
+
+
+Row {data-height=500}
+----------------------------------------
+### Correlation Plot from Logistic Regression
+
+
+```{r}
+include_graphics("/capstone/energysiting/data/analysis/solarcorrplot.png")
+```
+```{r}
+
+```
+
+
+Here is some information.  
+
+Row {data-height=500}
+----------------------------------------
+### Term Plots from Logistic Regression
+
+
+```{r}
+include_graphics("/capstone/energysiting/data/analysis/solartermplot.png")
+```
+```{r}
+
+```
+
+
+Here is some information.  
+
+
+
+Row {data-height=1000}
+----------------------------------------
+### Pair Plots from Logistic Regression
+
+
+```{r}
+include_graphics("/capstone/energysiting/data/analysis/solarpairplot.png")
+```
+```{r}
+
+```
+
+
+Here is some information.  
+
+
+Row {data-height=30}
+----------------------------------------
+  
+  
+**Random Forest**
+
+Row {data-height=800}
+----------------------------------------
+### Variable Importance from Random Forest method
+
+
+```{r}
+include_graphics("/capstone/energysiting/data/analysis/solarrfvip.png")
+```
+```{r}
+
+```
+
+
+Here is some information.  
+
+
+Row {data-height=30}
+----------------------------------------
+  
+  
+**Maxent**
+
+Row {data-height=500}
+----------------------------------------
+### Variable Contribution from Maxent
+
+
+```{r}
+include_graphics("/capstone/energysiting/data/analysis/solarmaxentvip.png")
+```
+```{r}
+
+```
+
+
+Here is some information.  
+
+
+ 
+
+Row {data-height=800}
+---------------------------------------- 
+### Term Plots from Maxent
+
+
+```{r}
+include_graphics("/capstone/energysiting/data/analysis/solarmaxentterm.png")
+```
+```{r}
+
+```
+
+
+Here is some information.  
+
+
+
+
+
+Table {data-height=600}
+----------------------------------------
+
+```{r, out.height = 10}
+display_table("analysis/existing_cov_solar_2017.csv")
+```
+
+
+
+
+
+
+
+Wind Prediction
+========================================
+Row {data-height=45}
+----------------------------------------
+**WIND PREDICTION**
+
+Row {.tabset data-height=600}
+----------------------------------------
+### LogReg
+```{r, fig.asp=0.6}
+display("analysis/logReg_Pred_wind_2017.tif")
+```
+```{r}
+
+```
+
+
+**Prediction from Logistic Regression**  
+
+
+
+### Random Forest
+```{r, fig.asp=0.6}
+display("analysis/randomForest_Pred_wind_2017.tif")
+```
+```{r}
+
+```
+
+
+**Prediction from Random Forest method**  
+
+
+
+
+
+### Maxent
+```{r, fig.asp=0.6}
+display("analysis/Maxent_Pred_wind_2017.tif")
+```
+```{r}
+
+```
+
+
+**Prediction from Maxent**  
+
+
+
+
+
+Row {.tabset data-height=600}
+----------------------------------------
+
+
+### LogReg Interactive
+```{r, fig.asp=0.6}
+display_mapview("analysis/logReg_Pred_wind_2017.tif", layer_name = "LogReg_wind")
+```
+```{r}
+
+```
+
+
+###  Random Forest Interactive
+```{r, fig.asp=0.6}
+display_mapview("analysis/randomForest_Pred_wind_2017.tif", layer_name = "RF_wind")
+```
+```{r}
+
+```
+
+
+
+### Maxent Interactive
+```{r, fig.asp=0.6}
+display_mapview("analysis/Maxent_Pred_wind_2017.tif", layer_name = "Maxent_wind")
+```
+```{r}
+
+```
+
+
+
+
+
+
+
+
+
+
+Solar Analysis
+========================================
+Row {data-height=45}
+----------------------------------------
+**SOLAR ANALYSIS**
+
+Row {data-height=30}
+----------------------------------------
+**Logistic Regression**
+
+
+Row {data-height=500}
+----------------------------------------
+### Correlation Plot from Logistic Regression
+
+
+```{r}
+include_graphics("/capstone/energysiting/data/analysis/solarcorrplot.png")
+```
+```{r}
+
+```
+
+
+Here is some information.  
+
+Row {data-height=500}
+----------------------------------------
+### Term Plots from Logistic Regression
+
+
+```{r}
+include_graphics("/capstone/energysiting/data/analysis/solartermplot.png")
+```
+```{r}
+
+```
+
+
+Here is some information.  
+
+
+
+Row {data-height=1000}
+----------------------------------------
+### Pair Plots from Logistic Regression
+
+
+```{r}
+include_graphics("/capstone/energysiting/data/analysis/solarpairplot.png")
+```
+```{r}
+
+```
+
+
+Here is some information.  
+
+
+Row {data-height=30}
+----------------------------------------
+  
+  
+**Random Forest**
+
+Row {data-height=800}
+----------------------------------------
+### Variable Importance from Random Forest method
+
+
+```{r}
+include_graphics("/capstone/energysiting/data/analysis/solarrfvip.png")
+```
+```{r}
+
+```
+
+
+Here is some information.  
+
+
+Row {data-height=30}
+----------------------------------------
+  
+  
+**Maxent**
+
+Row {data-height=500}
+----------------------------------------
+### Variable Contribution from Maxent
+
+
+```{r}
+include_graphics("/capstone/energysiting/data/analysis/solarmaxentvip.png")
+```
+```{r}
+
+```
+
+
+Here is some information.  
+
+
+ 
+
+Row {data-height=800}
+---------------------------------------- 
+### Term Plots from Maxent
+
+
+```{r}
+include_graphics("/capstone/energysiting/data/analysis/solarmaxentterm.png")
+```
+```{r}
+
+```
+
+
+Here is some information.  
+
+
+
+
+
+Table {data-height=600}
+----------------------------------------
+
+```{r, out.height = 10}
+display_table("analysis/existing_cov_solar_2017.csv")
+```
+
+
+
+
+
+
+Solar Prediction
+========================================
+Row {data-height=45}
+----------------------------------------
+**SOLAR PREDICTION**
+
+Row {.tabset data-height=600}
+----------------------------------------
+### LogReg
+```{r, fig.asp=0.6}
+display("analysis/logReg_Pred_solar_2017.tif")
+```
+```{r}
+
+```
+
+
+**Prediction from Logistic Regression**  
+
+
+
+### Random Forest
+```{r, fig.asp=0.6}
+display("analysis/randomForest_Pred_solar_2017.tif")
+```
+```{r}
+
+```
+
+
+**Prediction from Random Forest method**  
+
+
+
+
+
+### Maxent
+```{r, fig.asp=0.6}
+display("analysis/Maxent_Pred_solar_2017.tif")
+```
+```{r}
+
+```
+
+
+**Prediction from Maxent**  
+
+
+
+
+
+Row {.tabset data-height=600}
+----------------------------------------
+
+
+### LogReg Interactive
+```{r, fig.asp=0.6}
+display_mapview("analysis/logReg_Pred_solar_2017.tif", layer_name = "LogReg_solar")
+```
+```{r}
+
+```
+
+
+###  Random Forest Interactive
+```{r, fig.asp=0.6}
+display_mapview("analysis/randomForest_Pred_solar_2017.tif", layer_name = "RF_solar")
+```
+```{r}
+
+```
+
+
+
+### Maxent Interactive
+```{r, fig.asp=0.6}
+display_mapview("analysis/Maxent_Pred_solar_2017.tif", layer_name = "Maxent_solar")
+```
+```{r}
+
+```
+
+
+Overview
+========================================
+Row {data-height=45}
+----------------------------------------
+**OVERVIEW**
+
+Row {.tabset data-height=2000}
+----------------------------------------
+### Summary
+
+**Summary**  
+
+![](/capstone/energysiting/data/intermediate_files/windpowersun.png)  
+The decarbonization of energy sources to mitigate climate change is one of the greatest challenges facing the world today. There is significant pressure to achieve the increasingly prevalent, highly ambitious clean energy goals. Even where physical conditions are well suited for renewable energy, there is often significant variation in their potential and use (Pierce et al., 2021). Limited knowledge exists pertaining to the determining factors for successful siting of wind and solar energy projects. Without understanding the relationships between renewable energy development and local or regional siting criteria, clean energy policies could result in unintended consequences or end up being less effective (Wu et al., 2020). Grace Wu (the Client) previously piloted a study that predicted energy siting locations in the western United States. The objective of this capstone project is to expand on this previous work and determine the most influential factors for successful siting of utility-scale onshore wind and solar photovoltaics for the continental United States (US) by:  
+
+1. Identify and analyze the relationship of renewable energy siting with physical, societal, technology, and policy factors.  
+2. Generate prediction maps of future siting of wind and solar power plants using statistical techniques and machine learning algorithms.   
+
+To achieve these objectives the team used four processing steps: data gathering and management, creation of a complete raster stack, machine learning analysis, and siting predictions map generation. Gathered geospatial data for every environmental variable used in the analysis was rasterized to perform the machine learning analysis to determine the relationship of renewable energy with physical, societal, technology, and policy factors.  
+
+Data is stored on the Bren School of Environmental Science & Management server, named Taylor, and code is documented on the energy-siting GitHub repository. The team primarily used R for writing and producing code with some Python used in the data gathering process. To make certain calculations faster, QGIS was used to calculate euclidean distances. Any areas where QGIS was used are fully documented with details on the decision to use the software and what functions were performed. Data, code, and analysis will be tested thoroughly to ensure that full functionality is achieved.   
+
+The team achieved a national analysis for determining the most influential factors for successful siting of renewable energy projects. Based on these factors a map was generated using machine learning processes that contain the predicted locations of future projects. The team used multiple methods of machine learning that will be discussed further in the User Documentation section.   
+
+
+### Problem Statement
+
+**Problem Statement**  
+Climate change is a growing threat and one of the ways we can mitigate the impacts is through rapid decarbonization of energy sources (Wu et al. 2020). Renewable energy provides a technologically proven pathway to reach decarbonization goals. Limited knowledge exists pertaining to the determining factors for successful siting of utility scale onshore wind and solar photovoltaic energy projects. Identifying the most influential determinants of renewable energy siting would inform better electricity system planning, better use of limited resources in successful siting of future power plants, and allow for a more rapid decarbonization of energy sources.
+
+
+### Specific Objectives
+
+**Specific Objectives**  
+The objective of this project is to fill this knowledge gap by determining the most influential factors for the successful siting of renewable energy projects for each region in the US by:  
+
+1. Identify and analyze the relationship of renewable energy siting with physical, societal, technology, and policy factors.  
+2. Generate prediction maps of future siting of wind and solar power plants using statistical techniques and machine learning algorithms.   
+
+### Testing
+
+**Testing Code**  
+The scripts used in the project were checked for reproducibility across different operating systems (OS). This includes functions that check for the presence of packages and install them if they are not present on the user’s machine. At each step of data curation and combination throughout the project, students performed unit testing on intermediate outputs to ensure the data was combined in correct formats allowing for proper functionality. Code review was performed by the team members to ensure the access to code and documentation is preserved after the project.   
+
+
+**Testing Data**  
+Reviews will be conducted as data is downloaded and used to validate that data aligns with the provided metadata and can guide the analysis as is intended. Data types and structures will be tested using the implementation of error messages throughout the code for future users of the algorithm to validate that calculations are being performed on the correct data types. Students will perform a percent presence/absence of raster cells to ensure there is enough data being used in the regression to avoid errors due to row wise deletion. Any changes made to the datasets to handle missingness will be added to the metadata documentation. There will also be a built-in test telling users how many observations will be used in a regression to ensure that users are aware of list wise deletion possibilities.   
+
+
+**Testing Algorithms & Analyses**  
+Regressions will be checked to ensure that the respective assumptions are satisfied. We will also test for multicollinearity through examination of the correlation coefficients and their variance inflation factor (VIF) values. We will conduct sanity checks on our machine learning model output to ensure that siting predictions are feasible. For example, predicted locations should not include bodies of water or other excluded areas. The machine learning models will be tested using the metrics of the Receiver Operator Characteristic Curve and the Area Under the Curve (ROC/AUC).  
+
+
+**Testing Product Performance**  
+If the RShiny stretch goal is achieved, it will be tested thoroughly to ensure that full functionality is achieved.  
+
+
+### References
+
+**References**  
+Pierce, J. C., Krause, R. M., Hofmeyer, S. L., & Johnson, B. J. (2021). Explanations for Wind Turbine Installations: Local and Global Environmental Concerns in the Central Corridor of the United States? Energies, 14. https://doi.org/10.3390/en14185830  
+Wu, G. C., Leslie, E., Sawyerr, O., Cameron, D. R., Brand, E., Cohen, B., Allen, D., Ochoa, M., & Olson, A. (2020). Low-impact land use pathways to deep decarbonization of electricity. Environmental Research Letters, 15(7), 074044. https://doi.org/10.1088/1748-9326/ab87d1  
+
+### The Team
+
+**Students**  
+![Daniel Kerstan, Paloma Cartwright, Joseph DeCesaro, Desik Somasundaram](/capstone/energysiting/data/intermediate_files/team2.png)  
+
+(From left) Daniel Kerstan, Paloma Cartwright, Joseph DeCesaro, Desik Somasundaram  
+
+
+
+
+**Client**  
+![Grace Wu](/capstone/energysiting/data/intermediate_files/GraceWu.png)  
+Grace Wu  
+
+
+
+
+**Faculty Advisors**  
+
+![Ranjit Deshmukh](/capstone/energysiting/data/intermediate_files/Ranj.jpg)  
+Ranjit Deshmukh  
+
+
+![Allison Horst](/capstone/energysiting/data/intermediate_files/AllisonHorst.png)  
+Allison Horst
