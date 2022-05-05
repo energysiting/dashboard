@@ -7,6 +7,7 @@ output:
     vertical_layout: scroll
     fig_width: 7
     fig_height: 5
+    fig_mobile: TRUE
     
 ---
 
@@ -47,6 +48,13 @@ display_mapview <- function(file, layer_name = "value", legend = TRUE) {
   path_to_file <- file.path(path, file)
   x <- raster::raster(path_to_file)
   mapview::mapView(x, trim = FALSE, layer.name = layer_name, alpha.regions = 0.7, na.color = "transparent", legend = legend)
+}
+
+display_mapview_quality <- function(file, layer_name = "value", legend = TRUE) {
+  path_to_file <- file.path(path, file)
+  x <- raster::raster(path_to_file)
+  mapview::mapviewOptions(raster.size=10000000)
+  mapview::mapView(x, trim = FALSE, layer.name = layer_name, alpha.regions = 0.7, na.color = "transparent", legend = legend, maxpixels = 1000000)
 }
 
 display_mapview_vect <- function(file, zcol = NULL, layer_name = NULL, legend = FALSE) {
@@ -790,7 +798,7 @@ Row {.tabset data-height=600}
 
 ### LogReg Interactive
 ```{r, fig.asp=0.6}
-display_mapview("analysis/logReg_Pred_wind_2017.tif", layer_name = "LogReg_wind")
+display_mapview_quality("analysis/logReg_Pred_wind_2017.tif", layer_name = "LogReg_wind")
 ```
 ```{r}
 
@@ -799,7 +807,7 @@ display_mapview("analysis/logReg_Pred_wind_2017.tif", layer_name = "LogReg_wind"
 
 ###  Random Forest Interactive
 ```{r, fig.asp=0.6}
-display_mapview("analysis/randomForest_Pred_wind_2017.tif", layer_name = "RF_wind")
+display_mapview_quality("analysis/randomForest_Pred_wind_2017.tif", layer_name = "RF_wind")
 ```
 ```{r}
 
@@ -809,7 +817,7 @@ display_mapview("analysis/randomForest_Pred_wind_2017.tif", layer_name = "RF_win
 
 ### Maxent Interactive
 ```{r, fig.asp=0.6}
-display_mapview("analysis/Maxent_Pred_wind_2017.tif", layer_name = "Maxent_wind")
+display_mapview_quality("analysis/Maxent_Pred_wind_2017.tif", layer_name = "Maxent_wind")
 ```
 ```{r}
 
@@ -1017,7 +1025,7 @@ Row {.tabset data-height=600}
 
 ### LogReg Interactive
 ```{r, fig.asp=0.6}
-display_mapview("analysis/logReg_Pred_solar_2017.tif", layer_name = "LogReg_solar")
+display_mapview_quality("analysis/logReg_Pred_solar_2017.tif", layer_name = "LogReg_solar")
 ```
 ```{r}
 
@@ -1026,7 +1034,7 @@ display_mapview("analysis/logReg_Pred_solar_2017.tif", layer_name = "LogReg_sola
 
 ###  Random Forest Interactive
 ```{r, fig.asp=0.6}
-display_mapview("analysis/randomForest_Pred_solar_2017.tif", layer_name = "RF_solar")
+display_mapview_quality("analysis/randomForest_Pred_solar_2017.tif", layer_name = "RF_solar")
 ```
 ```{r}
 
@@ -1036,7 +1044,7 @@ display_mapview("analysis/randomForest_Pred_solar_2017.tif", layer_name = "RF_so
 
 ### Maxent Interactive
 ```{r, fig.asp=0.6}
-display_mapview("analysis/Maxent_Pred_solar_2017.tif", layer_name = "Maxent_solar")
+display_mapview_quality("analysis/Maxent_Pred_solar_2017.tif", layer_name = "Maxent_solar")
 ```
 ```{r}
 
