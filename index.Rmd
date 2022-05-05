@@ -728,18 +728,6 @@ Here is some information.
 
 
 
-Table {data-height=600}
-----------------------------------------
-
-```{r, out.height = 10}
-display_table("analysis/existing_cov_solar_2017.csv")
-```
-
-
-
-
-
-
 
 Wind Prediction
 ========================================
@@ -952,16 +940,6 @@ include_graphics("/capstone/energysiting/data/analysis/solarmaxentterm.png")
 
 Here is some information.  
 
-
-
-
-
-Table {data-height=600}
-----------------------------------------
-
-```{r, out.height = 10}
-display_table("analysis/existing_cov_solar_2017.csv")
-```
 
 
 
