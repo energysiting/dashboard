@@ -7,7 +7,7 @@ output:
     vertical_layout: scroll
     fig_width: 7
     fig_height: 5
-    fig_mobile: !expr c(2.75,3.80)
+    fig_mobile: !expr c(3.5,5)
     
 ---
 
