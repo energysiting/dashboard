@@ -188,7 +188,9 @@ If the RShiny stretch goal is achieved, it will be tested thoroughly to ensure t
 ### References
 
 **References**  
-Pierce, J. C., Krause, R. M., Hofmeyer, S. L., & Johnson, B. J. (2021). Explanations for Wind Turbine Installations: Local and Global Environmental Concerns in the Central Corridor of the United States? Energies, 14. https://doi.org/10.3390/en14185830  
+Pierce, J. C., Krause, R. M., Hofmeyer, S. L., & Johnson, B. J. (2021). Explanations for Wind Turbine Installations: Local and Global Environmental Concerns in the Central Corridor of the United States? Energies, 14. https://doi.org/10.3390/en14185830    
+
+
 Wu, G. C., Leslie, E., Sawyerr, O., Cameron, D. R., Brand, E., Cohen, B., Allen, D., Ochoa, M., & Olson, A. (2020). Low-impact land use pathways to deep decarbonization of electricity. Environmental Research Letters, 15(7), 074044. https://doi.org/10.1088/1748-9326/ab87d1  
 
 ### The Team
