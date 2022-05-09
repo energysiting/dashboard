@@ -629,7 +629,7 @@ Row {data-height=500}
 ### Term Plots from Logistic Regression
 
 
-Coming Soon
+![](/capstone/energysiting/data/analysis/windtermplot.png){width=500px}  
 
 
 Row {data-height=1000}
@@ -652,7 +652,6 @@ Row {data-height=800}
 
 Coming Soon
 
-Here is some information.  
 
 
 Row {data-height=30}
