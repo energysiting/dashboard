@@ -134,13 +134,14 @@ Row {data-height=45}
 ----------------------------------------
 **OVERVIEW**
 
-Row {.tabset data-height=2000}
+Row {data-height=105}
+----------------------------------------
+![](/capstone/energysiting/data/intermediate_files/windpowersun.png){data-height=100px}
+
+Row
 ----------------------------------------
 ### Summary
 
-**Summary**  
-
-![](/capstone/energysiting/data/intermediate_files/windpowersun.png)  
 The decarbonization of energy sources to mitigate climate change is one of the greatest challenges facing the world today. There is significant pressure to achieve the increasingly prevalent, highly ambitious clean energy goals. Even where physical conditions are well suited for renewable energy, there is often significant variation in their potential and use (Pierce et al., 2021). Limited knowledge exists pertaining to the determining factors for successful siting of wind and solar energy projects. Without understanding the relationships between renewable energy development and local or regional siting criteria, clean energy policies could result in unintended consequences or end up being less effective (Wu et al., 2020). Grace Wu (the Client) previously piloted a study that predicted energy siting locations in the western United States. The objective of this capstone project is to expand on this previous work and determine the most influential factors for successful siting of utility-scale onshore wind and solar photovoltaics for the continental United States (US) by:  
 
 1. Identify and analyze the relationship of renewable energy siting with physical, societal, technology, and policy factors.  
@@ -152,71 +153,87 @@ Data is stored on the Bren School of Environmental Science & Management server, 
 
 The team achieved a national analysis for determining the most influential factors for successful siting of renewable energy projects. Based on these factors a map was generated using machine learning processes that contain the predicted locations of future projects. The team used multiple methods of machine learning that will be discussed further in the User Documentation section.   
 
-
+Row
+----------------------------------------
 ### Problem Statement
 
-**Problem Statement**  
 Climate change is a growing threat and one of the ways we can mitigate the impacts is through rapid decarbonization of energy sources (Wu et al. 2020). Renewable energy provides a technologically proven pathway to reach decarbonization goals. Limited knowledge exists pertaining to the determining factors for successful siting of utility scale onshore wind and solar photovoltaic energy projects. Identifying the most influential determinants of renewable energy siting would inform better electricity system planning, better use of limited resources in successful siting of future power plants, and allow for a more rapid decarbonization of energy sources.
 
-
+Row
+----------------------------------------
 ### Specific Objectives
 
-**Specific Objectives**  
 The objective of this project is to fill this knowledge gap by determining the most influential factors for the successful siting of renewable energy projects for each region in the US by:  
 
 1. Identify and analyze the relationship of renewable energy siting with physical, societal, technology, and policy factors.  
-2. Generate prediction maps of future siting of wind and solar power plants using statistical techniques and machine learning algorithms.   
+2. Generate prediction maps of future siting of wind and solar power plants using statistical techniques and machine learning algorithms.  
 
+Row
+----------------------------------------
 ### Testing
 
-**Testing Code**  
+Testing Code:  
 The scripts used in the project were checked for reproducibility across different operating systems (OS). This includes functions that check for the presence of packages and install them if they are not present on the user’s machine. At each step of data curation and combination throughout the project, students performed unit testing on intermediate outputs to ensure the data was combined in correct formats allowing for proper functionality. Code review was performed by the team members to ensure the access to code and documentation is preserved after the project.   
 
 
-**Testing Data**  
+Testing Data:  
 Reviews will be conducted as data is downloaded and used to validate that data aligns with the provided metadata and can guide the analysis as is intended. Data types and structures will be tested using the implementation of error messages throughout the code for future users of the algorithm to validate that calculations are being performed on the correct data types. Students will perform a percent presence/absence of raster cells to ensure there is enough data being used in the regression to avoid errors due to row wise deletion. Any changes made to the datasets to handle missingness will be added to the metadata documentation. There will also be a built-in test telling users how many observations will be used in a regression to ensure that users are aware of list wise deletion possibilities.   
 
 
-**Testing Algorithms & Analyses**  
+Testing Algorithms & Analyses:   
 Regressions will be checked to ensure that the respective assumptions are satisfied. We will also test for multicollinearity through examination of the correlation coefficients and their variance inflation factor (VIF) values. We will conduct sanity checks on our machine learning model output to ensure that siting predictions are feasible. For example, predicted locations should not include bodies of water or other excluded areas. The machine learning models will be tested using the metrics of the Receiver Operator Characteristic Curve and the Area Under the Curve (ROC/AUC).  
 
 
-**Testing Product Performance**  
+Testing Product Performance:    
 If the RShiny stretch goal is achieved, it will be tested thoroughly to ensure that full functionality is achieved.  
 
-
+Row
+----------------------------------------
 ### References
 
-**References**  
 Pierce, J. C., Krause, R. M., Hofmeyer, S. L., & Johnson, B. J. (2021). Explanations for Wind Turbine Installations: Local and Global Environmental Concerns in the Central Corridor of the United States? Energies, 14. https://doi.org/10.3390/en14185830    
 
 
 Wu, G. C., Leslie, E., Sawyerr, O., Cameron, D. R., Brand, E., Cohen, B., Allen, D., Ochoa, M., & Olson, A. (2020). Low-impact land use pathways to deep decarbonization of electricity. Environmental Research Letters, 15(7), 074044. https://doi.org/10.1088/1748-9326/ab87d1  
 
-### The Team
+Row {data-height=45}
+----------------------------------------
 
-**Students**  
-![Daniel Kerstan, Paloma Cartwright, Joseph DeCesaro, Desik Somasundaram](/capstone/energysiting/data/intermediate_files/team2.png) 
+Row {data-height=45}
+----------------------------------------
+**The Team**
 
-(From left) Daniel Kerstan, Paloma Cartwright, Joseph DeCesaro, Desik Somasundaram  
+Row
+----------------------------------------
+### Students
+
+
+![](/capstone/energysiting/data/intermediate_files/team2.png)  
+(From left) Daniel Kerstan, Paloma Cartwright, Joseph DeCesaro, Desik Somasundaram   
 
 
 
 
-**Client**  
-![Grace Wu](/capstone/energysiting/data/intermediate_files/GraceWu.png)  
+Row
+----------------------------------------
+### Client
+
+
+![Grace Wu](/capstone/energysiting/data/intermediate_files/GraceWu.png){width=150px}  
 Grace Wu  
 
 
 
 
-**Faculty Advisors**  
+Row
+----------------------------------------
+### Faculty Advisors
 
-![Ranjit Deshmukh](/capstone/energysiting/data/intermediate_files/Ranj.jpg)    
+![Ranjit Deshmukh](/capstone/energysiting/data/intermediate_files/Ranj.jpg){width=150px}   
 Ranjit Deshmukh  
 
 
-![Allison Horst](/capstone/energysiting/data/intermediate_files/AllisonHorst.png)    
+![Allison Horst](/capstone/energysiting/data/intermediate_files/AllisonHorst.png){width=150px}     
 Allison Horst
 
 
