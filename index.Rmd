@@ -196,7 +196,7 @@ Wu, G. C., Leslie, E., Sawyerr, O., Cameron, D. R., Brand, E., Cohen, B., Allen,
 ### The Team
 
 **Students**  
-![Daniel Kerstan, Paloma Cartwright, Joseph DeCesaro, Desik Somasundaram](/capstone/energysiting/data/intermediate_files/team2.png)  
+![Daniel Kerstan, Paloma Cartwright, Joseph DeCesaro, Desik Somasundaram](/capstone/energysiting/data/intermediate_files/team2.png) 
 
 (From left) Daniel Kerstan, Paloma Cartwright, Joseph DeCesaro, Desik Somasundaram  
 
@@ -212,11 +212,11 @@ Grace Wu
 
 **Faculty Advisors**  
 
-![Ranjit Deshmukh](/capstone/energysiting/data/intermediate_files/Ranj.jpg)  
+![Ranjit Deshmukh](/capstone/energysiting/data/intermediate_files/Ranj.jpg)    
 Ranjit Deshmukh  
 
 
-![Allison Horst](/capstone/energysiting/data/intermediate_files/AllisonHorst.png)  
+![Allison Horst](/capstone/energysiting/data/intermediate_files/AllisonHorst.png)    
 Allison Horst
 
 
@@ -262,7 +262,7 @@ This dataset was created by the PLACES Lab at Boston University. High-resolution
 
 As of Nov 9, 2020, these estimates were the best available large-scale predictor for the actual cost of publicly-funded land acquisitions for conservation in the contiguous United States (Nolte, 2020). 
 
-The dataset is available for download [here](https://datadryad.org/stash/dataset/doi:10.5061/dryad.np5hqbzq9). 
+The original dataset is available for download [here](https://datadryad.org/stash/dataset/doi:10.5061/dryad.np5hqbzq9). 
  
 
 ```{r}
@@ -282,7 +282,7 @@ display("processed_data/variables/pop_density.tif")
 **Population Density**  
 ORNL’s LandScan is a community standard for global population distribution data. The LandScan Global population distribution is essentially a combination of locally adaptive models that are tailored to match the data conditions and geographical nature of each individual country and region (Rose et al., 2020).
 
-To access this data, you can follow this [link](https://landscan.ornl.gov/downloads/2019). 
+To access the original data, you can follow this [link](https://landscan.ornl.gov/downloads/2019). 
 
 ```{r}
 dt("processed_data/variables/pop_density.tif")
@@ -318,7 +318,7 @@ display("processed_data/variables/rps.tif")
 **Renewable Portfolio Standards**  
 Renewable Portfolio Standards (RPS) require that a specified percentage of the electricity utilities sell comes from renewable resources. States have created these standards to diversify their energy resources, promote domestic energy production and encourage economic development. This dataset contains information of the renewable portfolio standards for each state as of 2018.
 
-This data can be accessed through this [link](https://www.ncsl.org/research/energy/renewable-portfolio-standards.aspx).
+The original data can be accessed through this [link](https://www.ncsl.org/research/energy/renewable-portfolio-standards.aspx).
 
 ```{r}
 dt("processed_data/variables/rps.tif")
@@ -466,6 +466,78 @@ dt("processed_data/variables/wind_capacity.tif")
 
 
 
+### Region- Northeast
+```{r, fig.asp=0.6}
+display("processed_data/variables/region_ne.tif")
+```
+```{r}
+
+```
+
+
+**Northeast Region**  
+
+
+```{r}
+dt("processed_data/variables/region_ne.tif")
+```
+
+
+
+### Region- Midwest
+```{r, fig.asp=0.6}
+display("processed_data/variables/region_mw.tif")
+```
+```{r}
+
+```
+
+
+**Midwest Region**  
+
+
+```{r}
+dt("processed_data/variables/region_mw.tif")
+```
+
+
+
+
+### Region- South
+```{r, fig.asp=0.6}
+display("processed_data/variables/region_s.tif")
+```
+```{r}
+
+```
+
+
+**Southern Region**  
+
+
+```{r}
+dt("processed_data/variables/region_s.tif")
+```
+
+
+
+
+### Region- West
+```{r, fig.asp=0.6}
+display("processed_data/variables/region_w.tif")
+```
+```{r}
+
+```
+
+
+**Western Region**  
+
+
+```{r}
+dt("processed_data/variables/region_w.tif")
+```
+
 Locations
 ========================================
 Row {data-height=45}
@@ -528,15 +600,6 @@ display_vect("processed_data/existing_wind_solar/bgPts_wind.shp")
 These are points generated in order to conduct the machine learning analysis
 
 
-### Wind Absence Interactive
-```{r, fig.asp=0.6}
-display_mapview_vect("processed_data/existing_wind_solar/bgPtsBuff_wind.shp", layer_name = "ID")
-```
-```{r}
-
-```
-
-
 
 
 Row {.tabset data-height=550}
@@ -596,15 +659,6 @@ display_vect("processed_data/existing_wind_solar/bgPts_solar.shp")
 These are points generated in order to conduct the machine learning analysis
 
 
-### Solar Absence Interactive
-```{r, fig.asp=0.6}
-display_mapview_vect("processed_data/existing_wind_solar/bgPtsBuff_solar.shp", layer_name = "ID")
-```
-```{r}
-
-```
-
-
 
 Wind Analysis
 ========================================
@@ -629,7 +683,7 @@ Row {data-height=500}
 ### Term Plots from Logistic Regression
 
 
-![](/capstone/energysiting/data/analysis/windtermplot.png){width=500px}  
+![](/capstone/energysiting/data/analysis/windtermplot.png){width=400px}  
 
 
 Row {data-height=1000}
@@ -785,7 +839,7 @@ Row {data-height=500}
 ----------------------------------------
 ### Correlation Plot from Logistic Regression
 
-![](/capstone/energysiting/data/analysis/solarcorrplot.png){width=500px}
+![](/capstone/energysiting/data/analysis/solarcorrplot.png){width=400px}
 
 
 
@@ -793,14 +847,14 @@ Row {data-height=500}
 ----------------------------------------
 ### Term Plots from Logistic Regression
 
-![](/capstone/energysiting/data/analysis/solartermplot.png){width=500px}
+![](/capstone/energysiting/data/analysis/solartermplot.png){width=400px}
 
 
 Row {data-height=1000}
 ----------------------------------------
 ### Pair Plots from Logistic Regression
 
-![](/capstone/energysiting/data/analysis/solarpairplot.png){width=500px}
+![](/capstone/energysiting/data/analysis/solarpairplot.png){width=400px}
 
 
 Row {data-height=30}
@@ -813,7 +867,7 @@ Row {data-height=800}
 ----------------------------------------
 ### Variable Importance from Random Forest method
 
-![](/capstone/energysiting/data/analysis/solarrfvip.png){width=500px}
+![](/capstone/energysiting/data/analysis/solarrfvip.png){width=400px}
 
 
 Row {data-height=30}
@@ -826,14 +880,14 @@ Row {data-height=500}
 ----------------------------------------
 ### Variable Contribution from Maxent
 
-![](/capstone/energysiting/data/analysis/solarmaxentvip.png){width=500px}
+![](/capstone/energysiting/data/analysis/solarmaxentvip.png){width=400px}
 
 
 Row {data-height=800}
 ---------------------------------------- 
 ### Term Plots from Maxent
 
-![](/capstone/energysiting/data/analysis/solarmaxentterm.png){width=500px}
+![](/capstone/energysiting/data/analysis/solarmaxentterm.png){width=400px}
 
 
 
