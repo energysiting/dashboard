@@ -697,7 +697,7 @@ Row {data-height=30}
 **Logistic Regression**
 
 
-Row {data-height=500}
+Row {data-height=400}
 ----------------------------------------
 ### Logistic Regression Model Summary
 
