@@ -564,6 +564,45 @@ display("processed_data/variables/region_w.tif")
 dt("processed_data/variables/region_w.tif")
 ```
 
+
+
+### Region- Mountain West
+```{r, fig.asp=0.6}
+display("processed_data/variables/region_mtw.tif")
+```
+```{r}
+
+```
+
+
+**Mountain West Region**  
+
+
+```{r}
+dt("processed_data/variables/region_mtw.tif")
+```
+
+
+
+### Region- Texas
+```{r, fig.asp=0.6}
+display("processed_data/variables/region_tx.tif")
+```
+```{r}
+
+```
+
+
+**Texas**  
+
+
+```{r}
+dt("processed_data/variables/region_tx.tif")
+```
+
+
+
+
 Locations
 ========================================
 Row {data-height=45}
@@ -780,7 +819,7 @@ Row {data-height=45}
 ----------------------------------------
 **WIND PREDICTION**
 
-Row {.tabset data-height=600}
+Row {.tabset data-height=500}
 ----------------------------------------
 ### LogReg
 ```{r, fig.asp=0.6}
@@ -939,7 +978,7 @@ Row {data-height=45}
 ----------------------------------------
 **SOLAR PREDICTION**
 
-Row {.tabset data-height=600}
+Row {.tabset data-height=500}
 ----------------------------------------
 ### LogReg
 ```{r, fig.asp=0.6}
