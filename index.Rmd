@@ -143,9 +143,9 @@ Row {data-height=45}
 ----------------------------------------
 **OVERVIEW**
 
-Row {data-height=105}
+Row {data-height=80}
 ----------------------------------------
-![](/capstone/energysiting/data/intermediate_files/windpowersun.png){data-height=100px}
+![](/capstone/energysiting/data/intermediate_files/palmspringslogo4.png){height=75}  
 
 Row
 ----------------------------------------
@@ -703,9 +703,9 @@ Row {data-height=400}
 
 
 ```{r}
-load("/capstone/energysiting/data/analysis/m1_wind.rda")
+load("/capstone/energysiting/data/analysis/glm1_wind.rda")
 
-m1_wind %>% broom::tidy() %>% kableExtra::kable(digits = 3,
+glm1_wind %>% broom::tidy() %>% kableExtra::kable(digits = 3,
     align = "c")
 ```
 
