@@ -143,9 +143,9 @@ Row {data-height=45}
 ----------------------------------------
 **OVERVIEW**
 
-Row {data-height=90}
+Row {data-height=65}
 ----------------------------------------
-![](/capstone/energysiting/data/intermediate_files/palmspringslogo6.png){width=600}  
+![](/capstone/energysiting/data/intermediate_files/palmspringslogo6.png){width=440}  
 
 Row
 ----------------------------------------
