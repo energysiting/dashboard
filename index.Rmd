@@ -63,7 +63,7 @@ display_mapview_quality <- function(file, layer_name = "value", legend = TRUE) {
   path_to_file <- file.path(path, file)
   x <- raster::raster(path_to_file)
   mapview::mapviewOptions(raster.size=Inf)
-  mapview::mapView(x, trim = FALSE, layer.name = layer_name, alpha.regions = 0.7, na.color = "transparent", legend = legend, maxpixels = 700000)
+  mapview::mapView(x, trim = FALSE, layer.name = layer_name, alpha.regions = 0.7, na.color = "transparent", legend = legend, maxpixels = 700000, col.regions = rev(terrain.colors(50)))
 }
 
 display_mapview_vect <- function(file, zcol = NULL, layer_name = NULL, legend = FALSE) {
@@ -298,14 +298,20 @@ dt("processed_data/variables/land_acquisition.tif")
 
 ### Pop Density
 ```{r, fig.asp=0.6}
-display("processed_data/variables/pop_density.tif")
+path_to_pop <- file.path(path, "processed_data/variables/pop_density.tif")
+pop <- if(grepl(pattern = ".tif", x = path_to_pop)) {rast(path_to_pop)} else {vect(path_to_pop)}
+pop <- raster::aggregate(pop, 100)
+us_pop <- terra::project(vect(aoi), pop)
+terra::plot(pop, axes = FALSE, alpha = 0, legend = TRUE)
+terra::plot(us_pop, axes=FALSE, alpha = 0.7, border = "grey", add = TRUE)
+terra::plot(pop, axes=FALSE, add = TRUE, legend = TRUE, col = rev(grDevices::terrain.colors(1000)))
 ```
 ```{r}
 
 ```
 
 
-**Population Density**  
+**Population Density**  (cells aggregated to better show data on the map)  
 ORNL’s LandScan is a community standard for global population distribution data. The LandScan Global population distribution is essentially a combination of locally adaptive models that are tailored to match the data conditions and geographical nature of each individual country and region (Rose et al., 2020).
 
 To access the original data, you can follow this [link](https://landscan.ornl.gov/downloads/2019). 
@@ -586,7 +592,7 @@ dt("processed_data/variables/region_mtw.tif")
 
 ### Region- Texas
 ```{r, fig.asp=0.6}
-display("processed_data/variables/region_tx.tif")
+display("processed_data/variables/region_tex.tif")
 ```
 ```{r}
 
@@ -597,7 +603,7 @@ display("processed_data/variables/region_tx.tif")
 
 
 ```{r}
-dt("processed_data/variables/region_tx.tif")
+dt("processed_data/variables/region_tex.tif")
 ```
 
 
@@ -913,6 +919,18 @@ Row {data-height=45}
 Row {data-height=30}
 ----------------------------------------
 **Logistic Regression**
+
+Row {data-height=400}
+----------------------------------------
+### Logistic Regression Model Summary
+
+
+```{r}
+load("/capstone/energysiting/data/analysis/glm1_solar.rda")
+
+glm1_solar %>% broom::tidy() %>% kableExtra::kable(digits = 3,
+    align = "c")
+```
 
 
 Row {data-height=500}
