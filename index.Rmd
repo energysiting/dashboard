@@ -757,6 +757,7 @@ glm1_wind %>% broom::tidy() %>% kableExtra::kable(digits = 3,
 
 
 
+
 Row {data-height=500}
 ----------------------------------------
 ### Correlation Plot from Logistic Regression
@@ -942,6 +943,10 @@ load("/capstone/energysiting/data/analysis/glm1_solar.rda")
 glm1_solar %>% broom::tidy() %>% kableExtra::kable(digits = 3,
     align = "c")
 ```
+
+
+
+
 
 
 Row {data-height=500}
