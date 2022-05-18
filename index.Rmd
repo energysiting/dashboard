@@ -742,16 +742,13 @@ Row {data-height=30}
 **Logistic Regression**
 
 
-Row {data-height=400}
+Row {data-height=1000}
 ----------------------------------------
 ### Logistic Regression Model Summary
 
 
 ```{r}
-load("/capstone/energysiting/data/analysis/glm1_wind.rda")
-
-glm1_wind %>% broom::tidy() %>% kableExtra::kable(digits = 3,
-    align = "c")
+htmltools::includeHTML("/capstone/energysiting/data/analysis/glm1_wind.html")
 ```
 
 
@@ -932,16 +929,13 @@ Row {data-height=30}
 ----------------------------------------
 **Logistic Regression**
 
-Row {data-height=400}
+Row {data-height=1000}
 ----------------------------------------
 ### Logistic Regression Model Summary
 
 
 ```{r}
-load("/capstone/energysiting/data/analysis/glm1_solar.rda")
-
-glm1_solar %>% broom::tidy() %>% kableExtra::kable(digits = 3,
-    align = "c")
+htmltools::includeHTML("/capstone/energysiting/data/analysis/glm1_solar.html")
 ```
 
 
