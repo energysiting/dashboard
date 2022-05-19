@@ -745,10 +745,6 @@ Row {data-height=45}
 ----------------------------------------
 **WIND ANALYSIS**
 
-Row {data-height=30}
-----------------------------------------
-**Logistic Regression**
-
 
 Row {data-height=1000}
 ----------------------------------------
@@ -761,67 +757,40 @@ htmltools::includeHTML("/capstone/energysiting/data/analysis/glm1_wind.html")
 
 
 
+Row {data-height=30}
+----------------------------------------
+**Variable Importance**
+
+
+
+
+Row {.tabset data-height=500}
+----------------------------------------
+### Logistic Regression
+
+![](/capstone/energysiting/data/analysis/windglmvip.png)  
+
+### Random Forest
+
+![](/capstone/energysiting/data/analysis/windrfvip.png)  
+
+### Maxent
+
+![](/capstone/energysiting/data/analysis/windmaxentvip.png)  
+
+### Lasso
+
+![](/capstone/energysiting/data/analysis/windlassovip.png)  
 
 
 Row {data-height=500}
 ----------------------------------------
-### Correlation Plot from Logistic Regression
+### Correlation Plot (from Logistic Regression)
 
 
 ![](/capstone/energysiting/data/analysis/windcorrplot.png){width=400px}  
 
-Row {data-height=500}
-----------------------------------------
-### Term Plots from Logistic Regression
 
-
-![](/capstone/energysiting/data/analysis/windtermplot.png){width=400px}  
-
-
-Row {data-height=1000}
-----------------------------------------
-### Pair Plots from Logistic Regression
-
-
-![](/capstone/energysiting/data/analysis/windpairplot.png){width=400px}  
-
-Row {data-height=30}
-----------------------------------------
-  
-  
-**Random Forest**
-
-Row {data-height=800}
-----------------------------------------
-### Variable Importance from Random Forest method
-
-
-![](/capstone/energysiting/data/analysis/windrfvip.png){width=400px}  
-
-
-
-Row {data-height=30}
-----------------------------------------
-  
-  
-**Maxent**
-
-Row {data-height=500}
-----------------------------------------
-### Variable Contribution from Maxent
-
-
-![](/capstone/energysiting/data/analysis/windmaxentvip.png){width=400px}  
-
- 
-
-Row {data-height=800}
----------------------------------------- 
-### Term Plots from Maxent
-
-
-
-![](/capstone/energysiting/data/analysis/solarmaxentterm.png){width=400px}  
 
 
 
@@ -925,17 +894,12 @@ display_mapview_quality("analysis/logReg_Pred_lasso_wind_2017.tif", layer_name =
 
 
 
-
-
 Solar Analysis
 ========================================
 Row {data-height=45}
 ----------------------------------------
 **SOLAR ANALYSIS**
 
-Row {data-height=30}
-----------------------------------------
-**Logistic Regression**
 
 Row {data-height=1000}
 ----------------------------------------
@@ -948,62 +912,38 @@ htmltools::includeHTML("/capstone/energysiting/data/analysis/glm1_solar.html")
 
 
 
-
-
-
-Row {data-height=500}
-----------------------------------------
-### Correlation Plot from Logistic Regression
-
-![](/capstone/energysiting/data/analysis/solarcorrplot.png){width=400px}
-
-
-
-Row {data-height=500}
-----------------------------------------
-### Term Plots from Logistic Regression
-
-![](/capstone/energysiting/data/analysis/solartermplot.png){width=400px}
-
-
-Row {data-height=1000}
-----------------------------------------
-### Pair Plots from Logistic Regression
-
-![](/capstone/energysiting/data/analysis/solarpairplot.png){width=400px}
-
-
 Row {data-height=30}
 ----------------------------------------
-  
-  
-**Random Forest**
+**Variable Importance**
 
-Row {data-height=800}
+
+
+
+Row {.tabset data-height=500}
 ----------------------------------------
-### Variable Importance from Random Forest method
+### Logistic Regression
 
-![](/capstone/energysiting/data/analysis/solarrfvip.png){width=400px}
+![](/capstone/energysiting/data/analysis/solarglmvip.png)  
 
+### Random Forest
 
-Row {data-height=30}
-----------------------------------------
-  
-  
-**Maxent**
+![](/capstone/energysiting/data/analysis/solarrfvip.png)  
+
+### Maxent
+
+![](/capstone/energysiting/data/analysis/solarmaxentvip.png)  
+
+### Lasso
+
+![](/capstone/energysiting/data/analysis/solarlassovip.png)  
+
 
 Row {data-height=500}
 ----------------------------------------
-### Variable Contribution from Maxent
-
-![](/capstone/energysiting/data/analysis/solarmaxentvip.png){width=400px}
+### Correlation Plot (from Logistic Regression)
 
 
-Row {data-height=800}
----------------------------------------- 
-### Term Plots from Maxent
-
-![](/capstone/energysiting/data/analysis/solarmaxentterm.png){width=400px}
+![](/capstone/energysiting/data/analysis/solarcorrplot.png){width=400px}  
 
 Row {data-height=30}
 ----------------------------------------
@@ -1111,6 +1051,7 @@ display_gwr("solar_cf_solar_gwr.tif")
 
 
 **Solar Capacity Factor** 
+
 
 
 

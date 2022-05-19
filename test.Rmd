@@ -12,44 +12,353 @@ output:
 ---
 
 
-# Overview
-Row {data-height=45}
-----------------------------------------
-**OVERVIEW**
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(tidyverse)
+library(sf)
+library(terra)
+library(stringr)
+library(DT)
+library(knitr)
+```
 
-# Variables
-Row {data-height=45}
-----------------------------------------
-**OVERVIEW**
+```{r, include=FALSE}
+aoi <- read_sf("/capstone/energysiting/data/masks/us_outline/with_states.shp")
 
-# Locations
-Row {data-height=45}
-----------------------------------------
-**OVERVIEW**
+########Variables############
+path <- "/capstone/energysiting/data"
 
-# Wind Analysis
-Row {data-height=45}
-----------------------------------------
-**OVERVIEW**
+display <- function(file, legend=TRUE) {
+  path_to_file <- file.path(path, file)
+  x <- if(grepl(pattern = ".tif", x = file)) {rast(path_to_file)} else {vect(path_to_file)}
+  us <- terra::project(vect(aoi), x)
+  terra::plot(x, axes = FALSE, alpha = 0, legend = legend)
+  terra::plot(us, axes=FALSE, alpha = 0.7, border = "grey", add = TRUE)
+  terra::plot(x, axes=FALSE, add = TRUE, legend = legend)
+}
 
-# Wind Prediction
-Row {data-height=45}
-----------------------------------------
-**OVERVIEW**
+display_continuous <- function(file, legend=TRUE, type = "continuous") {
+  path_to_file <- file.path(path, file)
+  x <- if(grepl(pattern = ".tif", x = file)) {rast(path_to_file)} else {vect(path_to_file)}
+  us <- terra::project(vect(aoi), x)
+  terra::plot(x, axes = FALSE, alpha = 0, legend = legend, type = type)
+  terra::plot(us, axes=FALSE, alpha = 0.7, border = "grey", add = TRUE)
+  terra::plot(x, axes=FALSE, add = TRUE, legend = legend, type = type)
+}
 
-# Solar Analysis
-Row {data-height=45}
-----------------------------------------
-**OVERVIEW**
+display_vect <- function(file) {
+  path_to_file <- file.path(path, file)
+  x <- if(grepl(pattern = ".tif", x = file)) {rast(path_to_file)} else {vect(path_to_file)}
+  us <- terra::project(vect(aoi), x)
+  terra::plot(us, axes=FALSE, alpha = 0.7, border = "grey")
+  terra::plot(x, axes=FALSE, add = TRUE)
+}
 
-# Solar Prediction
-Row {data-height=45}
-----------------------------------------
-**OVERVIEW**
+display_mapview <- function(file, layer_name = "value", legend = TRUE) {
+  path_to_file <- file.path(path, file)
+  x <- raster::raster(path_to_file)
+  mapview::mapView(x, trim = FALSE, layer.name = layer_name, alpha.regions = 0.7, na.color = "transparent", legend = legend)
+}
 
-# GWR
+display_mapview_quality <- function(file, layer_name = "value", legend = TRUE) {
+  path_to_file <- file.path(path, file)
+  x <- raster::raster(path_to_file)
+  mapview::mapviewOptions(raster.size=Inf)
+  mapview::mapView(x, trim = FALSE, layer.name = layer_name, alpha.regions = 0.7, na.color = "transparent", legend = legend, maxpixels = 700000, col.regions = rev(terrain.colors(50)))
+}
+
+display_mapview_vect <- function(file, zcol = NULL, layer_name = NULL, legend = FALSE) {
+  path_to_file <- file.path(path, file)
+  x <- read_sf(path_to_file)
+  mapview::mapView(x, trim = FALSE, na.color = "transparent", zcol = zcol, layer.name = layer_name, legend = legend)
+}
+
+reso <- function(file) {
+  path_to_file <- file.path(path, file)
+  x <- rast(path_to_file)
+
+  return(paste(x@ptr$res[1], "x", x@ptr$res[2]))
+}
+
+extent <- function(file) {
+  path_to_file <- file.path(path, file)
+  x <- rast(path_to_file)
+  return(as.character(terra::ext(x)))
+ 
+}
+
+pro <- function(file) {
+  path_to_file <- file.path(path, file)
+  x <- rast(path_to_file)
+  return(crs(x, proj = TRUE))
+ 
+}
+
+units <- function(file) {
+  path_to_file <- file.path(path, file)
+  x <- rast(path_to_file)
+  value <- (terra::linearUnits(x))
+  return(paste(value, "m"))
+ 
+}
+
+type <- function(file) {
+  path_to_file <- file.path(path, file)
+  x <- if(grepl(pattern = ".tif", x = file)) {rast(path_to_file)} else {vect(path_to_file)}
+  if(grepl(pattern = ".tif", x = file)) {return("raster")}
+  else {return("vector")}
+ 
+}
+
+
+dt <- function(file) {
+  df <- data.frame(Type = type(file), Extent = extent(file), Projection = pro(file), Resolution = reso(file))
+  return(kableExtra::kable(df, align = 'c') %>% kableExtra::kable_classic())
+}
+
+display_table <- function(file) {
+  path_to_file <- file.path(path, file)
+  df <- read_csv(path_to_file)
+  DT::datatable(df)
+}
+
+files <- list.files(path)
+
+names <- files %>% 
+  str_remove_all(pattern = ".tif") %>% 
+  str_replace_all(pattern = "_", replacement = " ") %>% 
+  str_remove_all(pattern = "qgis")
+
+
+
+gwr_path <- "/capstone/energysiting/data/analysis/krige"
+
+display_gwr <- function(file){
+  x <- rast(file.path(gwr_path, file))
+  us <- terra::project(vect(aoi), x)
+  terra::plot(x, axes = FALSE, alpha = 0, legend = TRUE)
+  terra::plot(us, axes=FALSE, alpha = 0.7, border = "grey", add = TRUE)
+  terra::plot(x, axes=FALSE, add = TRUE, legend = TRUE)
+}
+
+
+```
+
+
+Wind Analysis
+========================================
 Row {data-height=45}
 ----------------------------------------
-**OVERVIEW**
+**WIND ANALYSIS**
+
+
+Row {data-height=1000}
+----------------------------------------
+### Logistic Regression Model Summary
+
+
+```{r}
+htmltools::includeHTML("/capstone/energysiting/data/analysis/glm1_wind.html")
+```
+
+
+
+Row {data-height=30}
+----------------------------------------
+**Variable Importance**
+
+
+
+
+Row {.tabset data-height=500}
+----------------------------------------
+### Logistic Regression
+
+![](/capstone/energysiting/data/analysis/windglmvip.png)  
+
+### Random Forest
+
+![](/capstone/energysiting/data/analysis/windrfvip.png)  
+
+### Maxent
+
+![](/capstone/energysiting/data/analysis/windmaxentvip.png)  
+
+### Lasso
+
+![](/capstone/energysiting/data/analysis/windlassovip.png)  
+
+
+Row {data-height=500}
+----------------------------------------
+### Correlation Plot (from Logistic Regression)
+
+
+![](/capstone/energysiting/data/analysis/windcorrplot.png){width=400px}  
+
+
+
+
+
+Solar Analysis
+========================================
+Row {data-height=45}
+----------------------------------------
+**SOLAR ANALYSIS**
+
+
+Row {data-height=1000}
+----------------------------------------
+### Logistic Regression Model Summary
+
+
+```{r}
+htmltools::includeHTML("/capstone/energysiting/data/analysis/glm1_solar.html")
+```
+
+
+
+Row {data-height=30}
+----------------------------------------
+**Variable Importance**
+
+
+
+
+Row {.tabset data-height=500}
+----------------------------------------
+### Logistic Regression
+
+![](/capstone/energysiting/data/analysis/solarglmvip.png)  
+
+### Random Forest
+
+![](/capstone/energysiting/data/analysis/solarrfvip.png)  
+
+### Maxent
+
+![](/capstone/energysiting/data/analysis/solarmaxentvip.png)  
+
+### Lasso
+
+![](/capstone/energysiting/data/analysis/solarlassovip.png)  
+
+
+Row {data-height=500}
+----------------------------------------
+### Correlation Plot (from Logistic Regression)
+
+
+![](/capstone/energysiting/data/analysis/solarcorrplot.png){width=400px}  
+
+Row {data-height=30}
+----------------------------------------
+**Geographically Weighted Regression Results**
+
+Row {.tabset data-height=500}
+----------------------------------------
+### Env Exclusions
+```{r, fig.asp=0.6}
+display_gwr("solar_env_gwr.tif")
+```
+```{r}
+
+```
+
+
+**Environmental Exclusions**  
+
+
+
+### Substations
+```{r, fig.asp=0.6}
+display_gwr("solar_sub_gwr.tif")
+```
+```{r}
+
+```
+
+
+**Electric Substations**  
+
+
+
+### RPS
+```{r, fig.asp=0.6}
+display_gwr("solar_rps_gwr.tif")
+```
+```{r}
+
+```
+
+
+**Renewable Portfolio Standards** 
+
+
+
+### Roads
+```{r, fig.asp=0.6}
+display_gwr("solar_roads_gwr.tif")
+```
+```{r}
+
+```
+
+
+**Distance to Roads** 
+
+
+### Transmission Lines
+```{r, fig.asp=0.6}
+display_gwr("solar_tx_gwr.tif")
+```
+```{r}
+
+```
+
+
+**Distance to Transmission Lines** 
+
+
+
+### Pop Density
+```{r, fig.asp=0.6}
+display_gwr("solar_pop_gwr.tif")
+```
+```{r}
+
+```
+
+
+**Population Density** 
+
+
+
+
+### Land Acquisition
+```{r, fig.asp=0.6}
+display_gwr("solar_landAcq_gwr.tif")
+```
+```{r}
+
+```
+
+
+**Land Acquisition Value** 
+
+
+### Solar Capacity
+```{r, fig.asp=0.6}
+display_gwr("solar_cf_solar_gwr.tif")
+```
+```{r}
+
+```
+
+
+**Solar Capacity Factor** 
+
+
+
 
 
