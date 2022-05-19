@@ -130,7 +130,15 @@ names <- files %>%
 
 
 
+gwr_path <- "/capstone/energysiting/data/analysis/krige"
 
+display_gwr <- function(file){
+  x <- rast(file.path(gwr_path, file))
+  us <- terra::project(vect(aoi), x)
+  terra::plot(x, axes = FALSE, alpha = 0, legend = TRUE)
+  terra::plot(us, axes=FALSE, alpha = 0.7, border = "grey", add = TRUE)
+  terra::plot(x, axes=FALSE, add = TRUE, legend = TRUE)
+}
 
 
 ```
@@ -1098,5 +1106,122 @@ display_mapview_quality("analysis/logReg_Pred_lasso_solar_2017.tif", layer_name 
 ```{r}
 
 ```
+
+
+
+
+
+GWR
+========================================
+Row {data-height=45}
+----------------------------------------
+**Geographically Weighted Regression Results**
+
+Row {data-height=30}
+----------------------------------------
+**Solar**
+
+Row {.tabset data-height=500}
+----------------------------------------
+### Env Exclusions
+```{r, fig.asp=0.6}
+display_gwr("solar_env_gwr.tif")
+```
+```{r}
+
+```
+
+
+**Environmental Exclusions**  
+
+
+
+### Substations
+```{r, fig.asp=0.6}
+display_gwr("solar_sub_gwr.tif")
+```
+```{r}
+
+```
+
+
+**Electric Substations**  
+
+
+
+### RPS
+```{r, fig.asp=0.6}
+display_gwr("solar_rps_gwr.tif")
+```
+```{r}
+
+```
+
+
+**Renewable Portfolio Standards** 
+
+
+
+### Roads
+```{r, fig.asp=0.6}
+display_gwr("solar_roads_gwr.tif")
+```
+```{r}
+
+```
+
+
+**Distance to Roads** 
+
+
+### Transmission Lines
+```{r, fig.asp=0.6}
+display_gwr("solar_tx_gwr.tif")
+```
+```{r}
+
+```
+
+
+**Distance to Transmission Lines** 
+
+
+
+### Pop Density
+```{r, fig.asp=0.6}
+display_gwr("solar_pop_gwr.tif")
+```
+```{r}
+
+```
+
+
+**Population Density** 
+
+
+
+
+### Land Acquisition
+```{r, fig.asp=0.6}
+display_gwr("solar_landAcq_gwr.tif")
+```
+```{r}
+
+```
+
+
+**Land Acquisition Value** 
+
+
+### Solar Capacity
+```{r, fig.asp=0.6}
+display_gwr("solar_cf_solar_gwr.tif")
+```
+```{r}
+
+```
+
+
+**Solar Capacity Factor** 
 
 
