@@ -145,91 +145,74 @@ display_gwr <- function(file){
 ```
 
 
-Solar Prediction
+Solar Analysis
 ========================================
 Row {data-height=45}
 ----------------------------------------
-**SOLAR PREDICTION**
+**SOLAR ANALYSIS**
 
-Row {.tabset data-height=500}
+
+Logistic Regression Model Summary {data-height=1000}
 ----------------------------------------
-### LogReg
-```{r, fig.asp=0.6}
-display("analysis/logReg_Pred_solar_2017.tif")
-```
+
+
 ```{r}
-
+htmltools::includeHTML("/capstone/energysiting/data/analysis/glm1_solar.html")
 ```
-
-
-**Prediction from Logistic Regression**  
-
-
-
-### Random Forest
-```{r, fig.asp=0.6}
-display_continuous("analysis/randomForest_Pred_solar_2017.tif")
-```
-```{r}
-
-```
-
-
-**Prediction from Random Forest method**  
-
-
-
-
-
-### Maxent
-```{r, fig.asp=0.6}
-display("analysis/Maxent_Pred_solar_2017.tif")
-```
-```{r}
-
-```
-
-
-**Prediction from Maxent**  
-
-
-
-
-
-
-### Lasso
-```{r, fig.asp=0.6}
-display("analysis/logReg_Pred_lasso_solar_2017.tif")
-```
-```{r}
-
-```
-
-
-**Prediction from Lasso**  
-
-
 
 
 Row {data-height=30}
 ----------------------------------------
+**Model Performance from 10 fold Cross Validation**
 
-**INTERACTIVE PREDICTION MAP (LOGISTIC REGRESSION)**
 
-Row {data-height=600}
+Row {.tabset data-height=500}
 ----------------------------------------
+### Performance
 
-```{r, fig.asp=0.6}
-display_mapview_quality("analysis/logReg_Pred_solar_2017.tif", layer_name = "LogReg_solar")
-```
-```{r}
+![](/capstone/energysiting/data/analysis/solarmlperf.png){width=400px}    
 
-```
+### ROC
+
+![](/capstone/energysiting/data/analysis/solarmlroc.png){width=400px}    
+
+### Density
+
+![](/capstone/energysiting/data/analysis/solarmldensity.png){width=400px}    
+
+
+Row {data-height=30}
+----------------------------------------
+**Variable Importance**
 
 
 
 
+Row {.tabset data-height=500}
+----------------------------------------
+### Logistic Regression
 
+![](/capstone/energysiting/data/analysis/solarglmvip.png){width=400px}    
+
+### Random Forest
+
+![](/capstone/energysiting/data/analysis/solarrfvip.png){width=400px}    
+
+### Maxent
+
+![](/capstone/energysiting/data/analysis/solarmaxentvip.png){width=400px}    
+
+### Lasso
+
+![](/capstone/energysiting/data/analysis/solarlassovip.png){width=400px}    
+
+
+Row {data-height=500}
+----------------------------------------
+### Correlation Plot (from Logistic Regression)
+
+
+![](/capstone/energysiting/data/analysis/solarcorrplot.png){width=400px}  
 
 
 

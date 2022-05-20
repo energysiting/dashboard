@@ -63,7 +63,7 @@ display_mapview_quality <- function(file, layer_name = "value", legend = TRUE) {
   path_to_file <- file.path(path, file)
   x <- raster::raster(path_to_file)
   mapview::mapviewOptions(raster.size=Inf)
-  mapview::mapView(x, trim = FALSE, layer.name = layer_name, alpha.regions = 0.7, na.color = "transparent", legend = legend, maxpixels = 700000, col.regions = rev(terrain.colors(50)))
+  mapview::mapView(x, trim = FALSE, layer.name = layer_name, alpha.regions = 0.7, na.color = "transparent", legend = legend, maxpixels = 1000000, col.regions = rev(terrain.colors(50)))
 }
 
 display_mapview_vect <- function(file, zcol = NULL, layer_name = NULL, legend = FALSE) {
@@ -766,15 +766,15 @@ Row {.tabset data-height=500}
 ----------------------------------------
 ### Performance
 
-![](/capstone/energysiting/data/analysis/windmlperf.png)  
+![](/capstone/energysiting/data/analysis/windmlperf.png){width=400px}    
 
 ### ROC
 
-![](/capstone/energysiting/data/analysis/windmlroc.png)  
+![](/capstone/energysiting/data/analysis/windmlroc.png){width=400px}    
 
 ### Density
 
-![](/capstone/energysiting/data/analysis/windmldensity.png)  
+![](/capstone/energysiting/data/analysis/windmldensity.png){width=400px}    
 
 
 Row {data-height=30}
@@ -786,19 +786,19 @@ Row {.tabset data-height=500}
 ----------------------------------------
 ### Logistic Regression
 
-![](/capstone/energysiting/data/analysis/windglmvip.png)  
+![](/capstone/energysiting/data/analysis/windglmvip.png){width=400px}    
 
 ### Random Forest
 
-![](/capstone/energysiting/data/analysis/windrfvip.png)  
+![](/capstone/energysiting/data/analysis/windrfvip.png){width=400px}    
 
 ### Maxent
 
-![](/capstone/energysiting/data/analysis/windmaxentvip.png)  
+![](/capstone/energysiting/data/analysis/windmaxentvip.png){width=400px}    
 
 ### Lasso
 
-![](/capstone/energysiting/data/analysis/windlassovip.png)  
+![](/capstone/energysiting/data/analysis/windlassovip.png){width=400px}    
 
 
 Row {data-height=500}
@@ -1054,15 +1054,15 @@ Row {.tabset data-height=500}
 ----------------------------------------
 ### Performance
 
-![](/capstone/energysiting/data/analysis/solarmlperf.png)  
+![](/capstone/energysiting/data/analysis/solarmlperf.png){width=400px}    
 
 ### ROC
 
-![](/capstone/energysiting/data/analysis/solarmlroc.png)  
+![](/capstone/energysiting/data/analysis/solarmlroc.png){width=400px}    
 
 ### Density
 
-![](/capstone/energysiting/data/analysis/solarmldensity.png)  
+![](/capstone/energysiting/data/analysis/solarmldensity.png){width=400px}    
 
 
 Row {data-height=30}
@@ -1076,19 +1076,19 @@ Row {.tabset data-height=500}
 ----------------------------------------
 ### Logistic Regression
 
-![](/capstone/energysiting/data/analysis/solarglmvip.png)  
+![](/capstone/energysiting/data/analysis/solarglmvip.png){width=400px}    
 
 ### Random Forest
 
-![](/capstone/energysiting/data/analysis/solarrfvip.png)  
+![](/capstone/energysiting/data/analysis/solarrfvip.png){width=400px}    
 
 ### Maxent
 
-![](/capstone/energysiting/data/analysis/solarmaxentvip.png)  
+![](/capstone/energysiting/data/analysis/solarmaxentvip.png){width=400px}    
 
 ### Lasso
 
-![](/capstone/energysiting/data/analysis/solarlassovip.png)  
+![](/capstone/energysiting/data/analysis/solarlassovip.png){width=400px}    
 
 
 Row {data-height=500}
