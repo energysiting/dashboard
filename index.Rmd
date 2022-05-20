@@ -63,7 +63,7 @@ display_mapview_quality <- function(file, layer_name = "value", legend = TRUE) {
   path_to_file <- file.path(path, file)
   x <- raster::raster(path_to_file)
   mapview::mapviewOptions(raster.size=Inf)
-  mapview::mapView(x, trim = FALSE, layer.name = layer_name, alpha.regions = 0.7, na.color = "transparent", legend = legend, maxpixels = 2000000, col.regions = rev(terrain.colors(50)))
+  mapview::mapView(x, trim = FALSE, layer.name = layer_name, alpha.regions = 0.7, na.color = "transparent", legend = legend, maxpixels = 2150000, col.regions = rev(terrain.colors(50)))
 }
 
 display_mapview_vect <- function(file, zcol = NULL, layer_name = NULL, legend = FALSE) {
