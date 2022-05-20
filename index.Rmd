@@ -1009,15 +1009,16 @@ display("analysis/logReg_Pred_lasso_wind_2017.tif")
 **Prediction from Lasso**  
 
 
-
 Row {data-height=30}
 ----------------------------------------
+Row {data-height=30}
+----------------------------------------
+**INTERACTIVE MAP**
 
-**INTERACTIVE PREDICTION MAP (LOGISTIC REGRESSION)**
-
-Row {data-height=800}
+Row {data-height=600}
 ----------------------------------------
 
+### Interactive Prediction Map (Logistic Regression)
 ```{r, fig.asp=0.6}
 display_mapview_quality("analysis/logReg_Pred_wind_2017.tif", layer_name = "LogReg_wind")
 ```
@@ -1302,12 +1303,14 @@ display("analysis/logReg_Pred_lasso_solar_2017.tif")
 
 Row {data-height=30}
 ----------------------------------------
-
-**INTERACTIVE PREDICTION MAP (LOGISTIC REGRESSION)**
-
-Row {data-height=800}
+Row {data-height=30}
 ----------------------------------------
+**INTERACTIVE MAP**
 
+
+Row {data-height=600}
+----------------------------------------
+### Interactive Prediction Map (Logistic Regression)
 ```{r, fig.asp=0.6}
 display_mapview_quality("analysis/logReg_Pred_solar_2017.tif", layer_name = "LogReg_solar")
 ```
