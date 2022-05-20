@@ -159,6 +159,8 @@ Logistic Regression Model Summary {data-height=1000}
 ```{r}
 htmltools::includeHTML("/capstone/energysiting/data/analysis/glm1_solar.html")
 ```
+Row {data-height=30}
+----------------------------------------
 
 
 Row {data-height=30}
