@@ -145,218 +145,89 @@ display_gwr <- function(file){
 ```
 
 
-Wind Analysis
+Solar Prediction
 ========================================
 Row {data-height=45}
 ----------------------------------------
-**WIND ANALYSIS**
-
-
-Row {data-height=1000}
-----------------------------------------
-### Logistic Regression Model Summary
-
-
-```{r}
-htmltools::includeHTML("/capstone/energysiting/data/analysis/glm1_wind.html")
-```
-
-
-
-Row {data-height=30}
-----------------------------------------
-**Variable Importance**
-
-
-
+**SOLAR PREDICTION**
 
 Row {.tabset data-height=500}
 ----------------------------------------
-### Logistic Regression
+### LogReg
+```{r, fig.asp=0.6}
+display("analysis/logReg_Pred_solar_2017.tif")
+```
+```{r}
 
-![](/capstone/energysiting/data/analysis/windglmvip.png)  
+```
+
+
+**Prediction from Logistic Regression**  
+
+
 
 ### Random Forest
+```{r, fig.asp=0.6}
+display_continuous("analysis/randomForest_Pred_solar_2017.tif")
+```
+```{r}
 
-![](/capstone/energysiting/data/analysis/windrfvip.png)  
+```
+
+
+**Prediction from Random Forest method**  
+
+
+
+
 
 ### Maxent
+```{r, fig.asp=0.6}
+display("analysis/Maxent_Pred_solar_2017.tif")
+```
+```{r}
 
-![](/capstone/energysiting/data/analysis/windmaxentvip.png)  
+```
+
+
+**Prediction from Maxent**  
+
+
+
+
+
 
 ### Lasso
-
-![](/capstone/energysiting/data/analysis/windlassovip.png)  
-
-
-Row {data-height=500}
-----------------------------------------
-### Correlation Plot (from Logistic Regression)
-
-
-![](/capstone/energysiting/data/analysis/windcorrplot.png){width=400px}  
-
-
-
-
-
-Solar Analysis
-========================================
-Row {data-height=45}
-----------------------------------------
-**SOLAR ANALYSIS**
-
-
-Row {data-height=1000}
-----------------------------------------
-### Logistic Regression Model Summary
-
-
-```{r}
-htmltools::includeHTML("/capstone/energysiting/data/analysis/glm1_solar.html")
+```{r, fig.asp=0.6}
+display("analysis/logReg_Pred_lasso_solar_2017.tif")
 ```
+```{r}
+
+```
+
+
+**Prediction from Lasso**  
+
 
 
 
 Row {data-height=30}
 ----------------------------------------
-**Variable Importance**
 
+**INTERACTIVE PREDICTION MAP (LOGISTIC REGRESSION)**
 
-
-
-Row {.tabset data-height=500}
+Row {data-height=600}
 ----------------------------------------
-### Logistic Regression
 
-![](/capstone/energysiting/data/analysis/solarglmvip.png)  
-
-### Random Forest
-
-![](/capstone/energysiting/data/analysis/solarrfvip.png)  
-
-### Maxent
-
-![](/capstone/energysiting/data/analysis/solarmaxentvip.png)  
-
-### Lasso
-
-![](/capstone/energysiting/data/analysis/solarlassovip.png)  
-
-
-Row {data-height=500}
-----------------------------------------
-### Correlation Plot (from Logistic Regression)
-
-
-![](/capstone/energysiting/data/analysis/solarcorrplot.png){width=400px}  
-
-Row {data-height=30}
-----------------------------------------
-**Geographically Weighted Regression Results**
-
-Row {.tabset data-height=500}
-----------------------------------------
-### Env Exclusions
 ```{r, fig.asp=0.6}
-display_gwr("solar_env_gwr.tif")
+display_mapview_quality("analysis/logReg_Pred_solar_2017.tif", layer_name = "LogReg_solar")
 ```
 ```{r}
 
 ```
 
 
-**Environmental Exclusions**  
 
-
-
-### Substations
-```{r, fig.asp=0.6}
-display_gwr("solar_sub_gwr.tif")
-```
-```{r}
-
-```
-
-
-**Electric Substations**  
-
-
-
-### RPS
-```{r, fig.asp=0.6}
-display_gwr("solar_rps_gwr.tif")
-```
-```{r}
-
-```
-
-
-**Renewable Portfolio Standards** 
-
-
-
-### Roads
-```{r, fig.asp=0.6}
-display_gwr("solar_roads_gwr.tif")
-```
-```{r}
-
-```
-
-
-**Distance to Roads** 
-
-
-### Transmission Lines
-```{r, fig.asp=0.6}
-display_gwr("solar_tx_gwr.tif")
-```
-```{r}
-
-```
-
-
-**Distance to Transmission Lines** 
-
-
-
-### Pop Density
-```{r, fig.asp=0.6}
-display_gwr("solar_pop_gwr.tif")
-```
-```{r}
-
-```
-
-
-**Population Density** 
-
-
-
-
-### Land Acquisition
-```{r, fig.asp=0.6}
-display_gwr("solar_landAcq_gwr.tif")
-```
-```{r}
-
-```
-
-
-**Land Acquisition Value** 
-
-
-### Solar Capacity
-```{r, fig.asp=0.6}
-display_gwr("solar_cf_solar_gwr.tif")
-```
-```{r}
-
-```
-
-
-**Solar Capacity Factor** 
 
 
 

@@ -263,7 +263,7 @@ Row {data-height=45}
 ----------------------------------------
 **VARIABLES**
 
-Row {.tabset data-height=1500}
+Row {.tabset data-height=800}
 ----------------------------------------
 ### Env Exclusions
 ```{r, fig.asp=0.6}
@@ -759,9 +759,27 @@ htmltools::includeHTML("/capstone/energysiting/data/analysis/glm1_wind.html")
 
 Row {data-height=30}
 ----------------------------------------
+**Model Performance from 10 fold Cross Validation**
+
+
+Row {.tabset data-height=500}
+----------------------------------------
+### Performance
+
+![](/capstone/energysiting/data/analysis/windmlperf.png)  
+
+### ROC
+
+![](/capstone/energysiting/data/analysis/windmlroc.png)  
+
+### Density
+
+![](/capstone/energysiting/data/analysis/windmldensity.png)  
+
+
+Row {data-height=30}
+----------------------------------------
 **Variable Importance**
-
-
 
 
 Row {.tabset data-height=500}
@@ -792,6 +810,142 @@ Row {data-height=500}
 
 
 
+Row {data-height=30}
+----------------------------------------
+**Geographically Weighted Regression Results**
+
+Row {.tabset data-height=500}
+----------------------------------------
+### Env Exclusions
+```{r, fig.asp=0.6}
+display_gwr("wind_env_gwr.tif")
+```
+```{r}
+
+```
+
+
+**Environmental Exclusions**  
+
+
+
+### Substations
+```{r, fig.asp=0.6}
+display_gwr("wind_sub_gwr.tif")
+```
+```{r}
+
+```
+
+
+**Electric Substations**  
+
+
+
+### RPS
+```{r, fig.asp=0.6}
+display_gwr("wind_rps_gwr.tif")
+```
+```{r}
+
+```
+
+
+**Renewable Portfolio Standards** 
+
+
+
+### Roads
+```{r, fig.asp=0.6}
+display_gwr("wind_roads_gwr.tif")
+```
+```{r}
+
+```
+
+
+**Distance to Roads** 
+
+
+### Transmission Lines
+```{r, fig.asp=0.6}
+display_gwr("wind_tx_gwr.tif")
+```
+```{r}
+
+```
+
+
+**Distance to Transmission Lines** 
+
+
+
+### Pop Density
+```{r, fig.asp=0.6}
+display_gwr("wind_pop_gwr.tif")
+```
+```{r}
+
+```
+
+
+**Population Density** 
+
+
+
+
+### Land Acquisition
+```{r, fig.asp=0.6}
+display_gwr("wind_landAcq_gwr.tif")
+```
+```{r}
+
+```
+
+
+**Land Acquisition Value** 
+
+
+
+
+### Slope
+```{r, fig.asp=0.6}
+display_gwr("wind_slope_gwr.tif")
+```
+```{r}
+
+```
+
+
+**Slope** 
+
+
+### SVI Unemployment
+```{r, fig.asp=0.6}
+display_gwr("wind_svi_unemp_gwr.tif")
+```
+```{r}
+
+```
+
+
+**Social Vulnerability Index - Unemployment** 
+
+
+
+
+### Wind Capacity
+```{r, fig.asp=0.6}
+display_gwr("wind_cf_wind_gwr.tif")
+```
+```{r}
+
+```
+
+
+**Wind Capacity Factor** 
+
+
 
 
 Wind Prediction
@@ -817,7 +971,7 @@ display("analysis/logReg_Pred_wind_2017.tif")
 
 ### Random Forest
 ```{r, fig.asp=0.6}
-display_continuous("analysis/randomForest_Pred_wind_2017.tif")
+display_continuous("analysis/randomForest_wind_2017.tif")
 ```
 ```{r}
 
@@ -856,36 +1010,16 @@ display("analysis/logReg_Pred_lasso_wind_2017.tif")
 
 
 
-Row {.tabset data-height=600}
+Row {data-height=30}
 ----------------------------------------
 
+**INTERACTIVE PREDICTION MAP (LOGISTIC REGRESSION)**
 
-### LogReg Interactive
+Row {data-height=600}
+----------------------------------------
+
 ```{r, fig.asp=0.6}
 display_mapview_quality("analysis/logReg_Pred_wind_2017.tif", layer_name = "LogReg_wind")
-```
-```{r}
-
-```
-
-
-
-
-### Maxent Interactive
-```{r, fig.asp=0.6}
-display_mapview_quality("analysis/Maxent_Pred_wind_2017.tif", layer_name = "Maxent_wind")
-```
-```{r}
-
-```
-
-
-
-
-
-### Lasso Interactive
-```{r, fig.asp=0.6}
-display_mapview_quality("analysis/logReg_Pred_lasso_wind_2017.tif", layer_name = "Lasso_wind")
 ```
 ```{r}
 
@@ -910,6 +1044,25 @@ Row {data-height=1000}
 htmltools::includeHTML("/capstone/energysiting/data/analysis/glm1_solar.html")
 ```
 
+
+Row {data-height=30}
+----------------------------------------
+**Model Performance from 10 fold Cross Validation**
+
+
+Row {.tabset data-height=500}
+----------------------------------------
+### Performance
+
+![](/capstone/energysiting/data/analysis/solarmlperf.png)  
+
+### ROC
+
+![](/capstone/energysiting/data/analysis/solarmlroc.png)  
+
+### Density
+
+![](/capstone/energysiting/data/analysis/solarmldensity.png)  
 
 
 Row {data-height=30}
@@ -1041,6 +1194,33 @@ display_gwr("solar_landAcq_gwr.tif")
 **Land Acquisition Value** 
 
 
+
+
+### Slope
+```{r, fig.asp=0.6}
+display_gwr("solar_slope_gwr.tif")
+```
+```{r}
+
+```
+
+
+**Slope** 
+
+
+### SVI Unemployment
+```{r, fig.asp=0.6}
+display_gwr("solar_svi_unemp_gwr.tif")
+```
+```{r}
+
+```
+
+
+**Social Vulnerability Index - Unemployment** 
+
+
+
 ### Solar Capacity
 ```{r, fig.asp=0.6}
 display_gwr("solar_cf_solar_gwr.tif")
@@ -1051,9 +1231,6 @@ display_gwr("solar_cf_solar_gwr.tif")
 
 
 **Solar Capacity Factor** 
-
-
-
 
 
 
@@ -1080,7 +1257,7 @@ display("analysis/logReg_Pred_solar_2017.tif")
 
 ### Random Forest
 ```{r, fig.asp=0.6}
-display_continuous("analysis/randomForest_Pred_solar_2017.tif")
+display_continuous("analysis/randomForest_solar_2017.tif")
 ```
 ```{r}
 
@@ -1123,42 +1300,18 @@ display("analysis/logReg_Pred_lasso_solar_2017.tif")
 
 
 
-Row {.tabset data-height=600}
+Row {data-height=30}
 ----------------------------------------
 
+**INTERACTIVE PREDICTION MAP (LOGISTIC REGRESSION)**
 
-### LogReg Interactive
+Row {data-height=600}
+----------------------------------------
+
 ```{r, fig.asp=0.6}
 display_mapview_quality("analysis/logReg_Pred_solar_2017.tif", layer_name = "LogReg_solar")
 ```
 ```{r}
 
 ```
-
-
-
-
-### Maxent Interactive
-```{r, fig.asp=0.6}
-display_mapview_quality("analysis/Maxent_Pred_solar_2017.tif", layer_name = "Maxent_solar")
-```
-```{r}
-
-```
-
-
-
-### Lasso Interactive
-```{r, fig.asp=0.6}
-display_mapview_quality("analysis/logReg_Pred_lasso_solar_2017.tif", layer_name = "Lasso_solar")
-```
-```{r}
-
-```
-
-
-
-
-
-
 
