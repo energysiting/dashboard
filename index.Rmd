@@ -19,9 +19,7 @@ library(terra)
 library(stringr)
 library(DT)
 library(knitr)
-```
 
-```{r, include=FALSE}
 aoi <- read_sf("/capstone/energysiting/data/masks/us_outline/with_states.shp")
 
 ########Variables############
