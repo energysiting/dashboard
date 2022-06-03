@@ -157,59 +157,91 @@ Row
 ----------------------------------------
 ### Summary
 
-The decarbonization of energy sources to mitigate climate change is one of the greatest challenges facing the world today. There is significant pressure to achieve the increasingly prevalent, highly ambitious clean energy goals. Even where physical conditions are well suited for renewable energy, there is often significant variation in their potential and use (Pierce et al., 2021). Limited knowledge exists pertaining to the determining factors for successful siting of wind and solar energy projects. Without understanding the relationships between renewable energy development and local or regional siting criteria, clean energy policies could result in unintended consequences or end up being less effective (Wu et al., 2020). Grace Wu (the Client) previously piloted a study that predicted energy siting locations in the western United States. The objective of this capstone project is to expand on this previous work and determine the most influential factors for successful siting of utility-scale onshore wind and solar photovoltaics for the continental United States (US) by:  
+The decarbonization of energy sources to mitigate climate change is one of the greatest challenges facing the world today. There is significant pressure to achieve the increasingly prevalent, highly ambitious clean energy goals. Even where physical conditions are well suited for renewable energy, there is often significant variation in their potential and their use (Pierce et al., 2021). Limited knowledge exists of the determining factors for successful siting of wind and solar energy projects. Without understanding the relationships between renewable energy development and local or regional siting criteria, clean energy policies could result in unintended consequences or end up being less effective (Wu et al., 2020). Dr. Grace Wu piloted a study predicting energy siting locations in the western United States. The objective of this capstone project is to expand on this previous work and determine the most influential factors for successful siting of utility-scale onshore wind and solar photovoltaics for the contiguous United States (US) through three main objectives:
+ 
+1. Gather and prepare data for each of the factors to be included in the models.  
+2. Identify and analyze the relationship of renewable energy siting with these factors.  
+3. Generate projection maps of siting favorability for utility-scale wind and solar power plants using statistical techniques and machine learning algorithms.  
 
-1. Identify and analyze the relationship of renewable energy siting with physical, societal, technology, and policy factors.  
-2. Generate prediction maps of future siting of wind and solar power plants using statistical techniques and machine learning algorithms.   
+To achieve these objectives the team used four processing steps: data gathering and management, creation of a complete raster stack, machine learning analysis, and siting projection map generation.  
 
-To achieve these objectives the team used four processing steps: data gathering and management, creation of a complete raster stack, machine learning analysis, and siting predictions map generation. Gathered geospatial data for every environmental variable used in the analysis was rasterized to perform the machine learning analysis to determine the relationship of renewable energy with physical, societal, technology, and policy factors.  
+Data is stored on the Bren School of Environmental Science & Management server, named Taylor, and code is documented on the energysiting GitHub repository. Upon completion of this project, the data was transferred to the Client for their storage and continued analysis. The team primarily used R for writing and producing code with some Python used in the data gathering process. To complete some calculations QGIS was used. This only occurred when the processing time in R and Python was not efficient for the task. Any areas where QGIS was used are fully documented with details on the decision to use the software and what functions were performed. Data, code, and analysis were tested thoroughly to ensure that full functionality and reproducibility is achieved.  
 
-Data is stored on the Bren School of Environmental Science & Management server, named Taylor, and code is documented on the energy-siting GitHub repository. The team primarily used R for writing and producing code with some Python used in the data gathering process. To make certain calculations faster, QGIS was used to calculate euclidean distances. Any areas where QGIS was used are fully documented with details on the decision to use the software and what functions were performed. Data, code, and analysis will be tested thoroughly to ensure that full functionality is achieved.   
-
-The team achieved a national analysis for determining the most influential factors for successful siting of renewable energy projects. Based on these factors a map was generated using machine learning processes that contain the predicted locations of future projects. The team used multiple methods of machine learning that will be discussed further in the User Documentation section.   
+Among the data was the location data for utility-scale wind and solar. The threshold for utility-scale wind energy was 10 MW and 5 MW for solar. For wind and solar, projects were filtered to only include those from 2017 forward to best align with the time period of the existing dataset for the variables of the analysis. The data for the locations of utility-scale projects is known as presence data. Presence data was made into a raster with the same projection, extent, and resolution as the factors to run the analysis.  
+To make models for the analysis, pseudo-absence points were generated. Pseudo-absence points are points where solar and wind are currently not located. These points were generated on a one-to-one scale based on the presence data. The area of each project present was calculated and a pseudo-absence polygon was created of the same area. The Client provided a dataset for both wind and solar called “site suitability”. Site suitability was distinct for each energy technology and provided locations of where wind and solar projects could possibly be sited. Based on the site suitability data, pseudo-absences were randomly distributed within these areas. The data was masked so that a pseudo-absence could not be placed where presence data occurred. Pseudo-absence data was made into a raster with the same projection, extent, and resolution as the variables to run the analysis.  
+Once presence and pseudo-absence data were finalized, zonal statistics were calculated for each project. For the purposes of this study, the zonal statistics are the average of each factor's value within the boundaries of the project. Using these averages we were able to analyze the effect of a variable on the project in our models.
+Five different modeling techniques were used for the analysis of factors on renewable energy siting. These include logistic regression, random forest, Maxent, Lasso regression, and geographically weighted regression (GWR). GWR was used to understand how a factor’s effect changed across space. All other model types were used to determine the most important siting factors and to generate projection maps of siting suitability. The team chose to use different machine learning methods to analyze which would be the most accurate and be able to compare results between models. 
+To make the models the R package “caret” was used. This package allows the use of multiple machine learning algorithms using the same package platform. The package is also used to conduct k-fold cross-validation and to assess the accuracy of the models made for this analysis.  
 
 Row
 ----------------------------------------
 ### Problem Statement
 
-Climate change is a growing threat and one of the ways we can mitigate the impacts is through rapid decarbonization of energy sources (Wu et al. 2020). Renewable energy provides a technologically proven pathway to reach decarbonization goals. Limited knowledge exists pertaining to the determining factors for successful siting of utility scale onshore wind and solar photovoltaic energy projects. Identifying the most influential determinants of renewable energy siting would inform better electricity system planning, better use of limited resources in successful siting of future power plants, and allow for a more rapid decarbonization of energy sources.
+Climate change is a growing threat and one of the ways we can mitigate the impacts is through rapid decarbonization of energy sources (Wu et al., 2020). Renewable energy provides a technologically proven pathway to reach decarbonization goals. Studies have shown the need for both wind and solar photovoltaics (PV) to meet decarbonization goals (Williams et al., 2021). Building out these power generation sources can be conflicting with other societal goals such as agricultural production and biodiversity protection. To build sufficient power plants, significant resources are spent by utilities and developers to find suitable areas. However, limited knowledge exists pertaining to the determining factors for successful siting of utility-scale onshore wind and solar PV energy projects. Identifying the most influential determinants of renewable energy siting would inform better electricity system planning, better use of limited resources in the siting of future power plants, and allow for more rapid decarbonization of energy sources. Further, the expansion of renewable energy and the electrification of other areas of society will require a larger capacity than the current electrical infrastructure. Electrical infrastructure can take significantly longer to build compared to renewable energy power plants. A better understanding of successful renewable energy siting can help streamline the planning of necessary electrical infrastructure aiding in the planning of a proactive buildout.  
+
 
 Row
 ----------------------------------------
 ### Specific Objectives
 
-The objective of this project is to fill this knowledge gap by determining the most influential factors for the successful siting of renewable energy projects for each region in the US by:  
+The objective of this capstone project is to expand on the pilot study by Dr. Grace Wu (the Client) and determine the most influential factors for successful siting of utility-scale onshore wind and solar photovoltaics for the contiguous United States (US) through three main objectives:  
 
-1. Identify and analyze the relationship of renewable energy siting with physical, societal, technology, and policy factors.  
-2. Generate prediction maps of future siting of wind and solar power plants using statistical techniques and machine learning algorithms.  
+1. Gather and prepare data for each of the factors to be included in the models.  
+2. Identify and analyze the relationship of renewable energy siting with these factors.  
+3. Generate projection maps of siting favorability for utility-scale wind and solar power plants using statistical techniques and machine learning algorithms.  
 
 Row
 ----------------------------------------
 ### Testing
 
 Testing Code:  
-The scripts used in the project were checked for reproducibility across different operating systems (OS). This includes functions that check for the presence of packages and install them if they are not present on the user’s machine. At each step of data curation and combination throughout the project, students performed unit testing on intermediate outputs to ensure the data was combined in correct formats allowing for proper functionality. Code review was performed by the team members to ensure the access to code and documentation is preserved after the project.   
-
+The scripts used in the project were checked for reproducibility across different operating systems (OS). This includes functions that check for the presence of packages and install them if they are not present on the user’s machine. At each step of data curation and combination, students performed unit testing on intermediate outputs to ensure the data was combined in correct formats allowing for proper functionality. Code review was performed by the team members to ensure the access to code and documentation is preserved after the project.   
+ 
 
 Testing Data:  
-Reviews will be conducted as data is downloaded and used to validate that data aligns with the provided metadata and can guide the analysis as is intended. Data types and structures will be tested using the implementation of error messages throughout the code for future users of the algorithm to validate that calculations are being performed on the correct data types. Students will perform a percent presence/absence of raster cells to ensure there is enough data being used in the regression to avoid errors due to row wise deletion. Any changes made to the datasets to handle missingness will be added to the metadata documentation. There will also be a built-in test telling users how many observations will be used in a regression to ensure that users are aware of list wise deletion possibilities.   
+Reviews will be conducted as data is downloaded and used to validate that data aligns with the provided metadata and can guide the analysis as is intended. Data types and structures were tested throughout the code to validate that calculations are being performed on the correct data types. Students ensured there was enough presence/absence data being used in the regression to avoid errors due to row-wise deletion. Any changes made to the datasets to handle gaps will be added to the metadata documentation. There is a built-in test telling users how many observations will be used in a regression to ensure that users are aware of list-wise deletion possibilities.  
 
 
 Testing Algorithms & Analyses:   
-Regressions will be checked to ensure that the respective assumptions are satisfied. We will also test for multicollinearity through examination of the correlation coefficients and their variance inflation factor (VIF) values. We will conduct sanity checks on our machine learning model output to ensure that siting predictions are feasible. For example, predicted locations should not include bodies of water or other excluded areas. The machine learning models will be tested using the metrics of the Receiver Operator Characteristic Curve and the Area Under the Curve (ROC/AUC).  
+Regressions will be checked to ensure that the respective assumptions are satisfied. We will also test for multicollinearity through examination of the correlation coefficients. We will conduct sanity checks on our machine learning model output to ensure that siting predictions are feasible. For example, predicted locations should not include bodies of water or other excluded areas. The performance of the machine learning models will be tested using the metrics of the Receiver Operator Characteristic Curve and the Area Under the Curve (ROC/AUC). K-fold cross validation was conducted for all the machine learning models using the resampling functionality in the caret package. The current analysis uses 10 folds which is generally considered to be sufficient to reduce significant bias.   
 
-
-Testing Product Performance:    
-If the RShiny stretch goal is achieved, it will be tested thoroughly to ensure that full functionality is achieved.  
 
 Row
 ----------------------------------------
 ### References
 
-Pierce, J. C., Krause, R. M., Hofmeyer, S. L., & Johnson, B. J. (2021). Explanations for Wind Turbine Installations: Local and Global Environmental Concerns in the Central Corridor of the United States? Energies, 14. https://doi.org/10.3390/en14185830    
+Centers for Disease Control. (2021, August 27). CDC/ATSDR Social Vulnerability index. https://www.atsdr.cdc.gov/placeandhealth/svi/data_documentation_download.html  
 
+Earth Resources Observation And Science (EROS) Center. (2018). Shuttle Radar Topography Mission (SRTM) 1 Arc-Second Global [Tiff]. U.S. Geological Survey. https://doi.org/10.5066/F7PR7TFT  
+
+Geofabrik. (2018). North America Open Street Map Data. https://download.geofabrik.de/north-america.html  
+
+Hoen, B., Diffendorfer, J. E., Rand, J., Kramer, L. A., Garrity, C. P., Roper, A. D., & Hunt, H. (2022). United States Wind Turbine Database [Data set]. U.S. Geological Survey. https://doi.org/10.5066/F7TX3DN0  
+
+Kruitwagen, L., Story, K., Friedrich, J., Byers, L., Skillman, S., & Hepburn, C. (2021). A global inventory of solar photovoltaic generating units—Dataset [Data set]. Zenodo. https://doi.org/10.5281/zenodo.5005868  
+
+National Renewable Energy Laboratory. (2021, December). National Solar Radiation Database. https://nsrdb.nrel.gov/data-sets/api-instructions.html  
+
+National Renewable Energy Laboratory. (2022). Wind Toolkit Data Downloads API | NREL: Developer Network. https://developer.nrel.gov/docs/wind/wind-toolkit/  
+
+NC Clean Energy Technology Center. (2022). Database of State Incentives for Renewables & Efficiency®. DSIRE. https://www.dsireusa.org/  
+
+Nolte, C. (2020). Data for: High-resolution land value maps reveal underestimation of conservation costs in the United States (Version 4, p. 299063757 bytes) [Data set]. Dryad. https://doi.org/10.5061/DRYAD.NP5HQBZQ9  
+
+Pierce, J. C., Krause, R. M., Hofmeyer, S. L., & Johnson, B. J. (2021). Explanations for Wind Turbine Installations: Local and Global Environmental Concerns in the Central Corridor of the United States? Energies, 14. https://doi.org/10.3390/en14185830  
+
+Rose, A. N., McKee, J. J., Sims, K. M., Bright, E. A., Reith, A. E., & Urban, M. L. (2020). LandScan 2019 (2019th ed.). Oak Ridge National Laboratory. https://landscan.ornl.gov/  
+
+The Nature Conservancy. (2021). Power of Place Renewable Resource Areas and Environmental Exclusions. https://tnc.maps.arcgis.com/apps/webappviewer/index.html?id=71b0605e44bf475ea55f6d369e668b2c  
+
+U.S. Department of Homeland Security. (2021a, September 30). Electric Substations—Homeland Infrastructure Foundation-Level Data (HIFLD). https://hifld-geoplatform.opendata.arcgis.com/datasets/geoplatform::electric-substations/explore?location=14.046296,-9.857173,2.94  
+
+U.S. Department of Homeland Security. (2021b, December 23). Electric Power Transmission Lines—Homeland Infrastructure Foundation-Level Data (HIFLD). https://hifld-geoplatform.opendata.arcgis.com/datasets/geoplatform::electric-power-transmission-lines/about  
+
+Williams, J. H., Jones, R. A., Haley, B., Kwok, G., Hargreaves, J., Farbes, J., & Torn, M. S. (2021). Carbon-Neutral Pathways for the United States. AGU Advances, 2(1), e2020AV000284. https://doi.org/10.1029/2020AV000284  
 
 Wu, G. C., Leslie, E., Sawyerr, O., Cameron, D. R., Brand, E., Cohen, B., Allen, D., Ochoa, M., & Olson, A. (2020). Low-impact land use pathways to deep decarbonization of electricity. Environmental Research Letters, 15(7), 074044. https://doi.org/10.1088/1748-9326/ab87d1  
+
 
 Row {data-height=45}
 ----------------------------------------
@@ -338,6 +370,7 @@ display("processed_data/variables/roads_qgis.tif")
 
 **Distance to Roads**  
 Euclidian distance to roads, calculated in meters.  
+The original roads dataset was compiled using data from Open Street Map but accessed through a PostgreSQL database which provided to the students by a Bren School PhD student. The outputted roads data has been saved as a geopackage and provided to the client. Please contact Grace Wu for access to this data.
 
 ```{r}
 dt("processed_data/variables/roads_qgis.tif")
@@ -354,9 +387,9 @@ display("processed_data/variables/rps.tif")
 
 
 **Renewable Portfolio Standards**  
-Renewable Portfolio Standards (RPS) require that a specified percentage of the electricity utilities sell comes from renewable resources. States have created these standards to diversify their energy resources, promote domestic energy production and encourage economic development. This dataset contains information of the renewable portfolio standards for each state as of 2018.
+Renewable Portfolio Standards (RPS) require that a specified percentage of the electricity utilities sell comes from renewable resources. States have created these standards to diversify their energy resources, promote domestic energy production and encourage economic development. This dataset contains information of the renewable portfolio standards for each state based on their 2025 goal. For states that did not have a 2025 goal, we chose the nearest target to this.  
 
-The original data can be accessed through this [link](https://www.ncsl.org/research/energy/renewable-portfolio-standards.aspx).
+This dataset was compiled by students through completion of extensive research and access can be gained through the client, Grace Wu.
 
 ```{r}
 dt("processed_data/variables/rps.tif")
@@ -410,7 +443,12 @@ display("processed_data/variables/substations_110_qgis.tif")
 
 
 **Distance to Electrical Substations**  
-add information here  
+Euclidian distance to substations, calculated in meters.  
+This feature class/shapefile is for the [Homeland Infrastructure Foundation Level Database (HIFLD)](https://gii.dhs.gov/HIFLD) as well as the Energy modelling and simulation community. This shapefile represents electric power substations primarily associated with electric power transmission. In this layer, substations are considered facilities and equipment that switch, transform, or regulate electric power at voltages equal to, or greater than, 69 kilovolts. The Substations feature class/shapefile includes taps, a location where power on a transmission line is tapped by another transmission line. (Homeland Infrastructure Foundation-Level Data, 2022)
+
+The original dataset can be accessed [here](https://hifld-geoplatform.opendata.arcgis.com/datasets/geoplatform::electric-substations/about). 
+
+
 
 ```{r}
 dt("processed_data/variables/substations_110_qgis.tif")
@@ -427,7 +465,10 @@ display("processed_data/variables/svi_overall.tif")
 
 
 **Social Vulnerability Index - Overall**  
-add information here  
+The dataset used for population demographics for the US was the Agency for Toxic Substances and Disease Registry at the Center for Disease Control's Social Vulnerability. The CDC/ATSDR SVI is a database that helps emergency response planners and public health officials identify, map, and plan support for communities that will most likely need support before, during, and after a public health emergency. The tool is commonly used across CDC/ATSDR, in addition to many emergency preparedness and response organizations. More information about this dataset can be found [here](https://www.atsdr.cdc.gov/placeandhealth/svi/at-a-glance_svi.html).
+
+The original dataset can be accessed [here](https://www.atsdr.cdc.gov/placeandhealth/svi/data_documentation_download.html). 
+
 
 ```{r}
 dt("processed_data/variables/svi_overall.tif")
@@ -444,7 +485,9 @@ display("processed_data/variables/svi_socioeconomic.tif")
 
 
 **Social Vulnerability Index - Socioeconomic**  
-add information here  
+The dataset used for population demographics for the US was the Agency for Toxic Substances and Disease Registry at the Center for Disease Control's Social Vulnerability. The CDC/ATSDR SVI is a database that helps emergency response planners and public health officials identify, map, and plan support for communities that will most likely need support before, during, and after a public health emergency. The tool is commonly used across CDC/ATSDR, in addition to many emergency preparedness and response organizations. More information about this dataset can be found [here](https://www.atsdr.cdc.gov/placeandhealth/svi/at-a-glance_svi.html).
+
+The original dataset can be accessed [here](https://www.atsdr.cdc.gov/placeandhealth/svi/data_documentation_download.html). 
 
 ```{r}
 dt("processed_data/variables/svi_socioeconomic.tif")
@@ -461,7 +504,9 @@ display("processed_data/variables/svi_unemp.tif")
 
 
 **Social Vulnerability Index - Unemployment**  
-add information here  
+The dataset used for population demographics for the US was the Agency for Toxic Substances and Disease Registry at the Center for Disease Control's Social Vulnerability. The CDC/ATSDR SVI is a database that helps emergency response planners and public health officials identify, map, and plan support for communities that will most likely need support before, during, and after a public health emergency. The tool is commonly used across CDC/ATSDR, in addition to many emergency preparedness and response organizations. More information about this dataset can be found [here](https://www.atsdr.cdc.gov/placeandhealth/svi/at-a-glance_svi.html).
+
+The original dataset can be accessed [here](https://www.atsdr.cdc.gov/placeandhealth/svi/data_documentation_download.html). 
 
 ```{r}
 dt("processed_data/variables/svi_unemp.tif")
@@ -478,7 +523,10 @@ display("processed_data/variables/transmission_110_qgis.tif")
 
 
 **Distance to Transmission Lines**  
-Distance to the nearest transmission line calculated in meters 
+Distance to the nearest transmission line calculated in meters.  
+This dataset was obtained from the Homeland Infrastructure Foundation Level Database (HIFLD) (https://gii.dhs.gov/HIFLD) as well as the Energy modelling and simulation community. It contains information on electric power transmission lines throughout the US. Transmission Lines are the system of structures, wires, insulators and associated hardware that carry electric energy from one point to another in an electric power system. Underground transmission lines are included where sources were available.
+
+The original dataset can be accessed [here](https://hifld-geoplatform.opendata.arcgis.com/datasets/geoplatform::electric-power-transmission-lines/about).
 
 ```{r}
 dt("processed_data/variables/transmission_110_qgis.tif")
